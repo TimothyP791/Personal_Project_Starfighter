@@ -25,6 +25,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        MovePlayer();
+        RestrictPlayer();
+        FireProjectile();
+        
+    }
+
+    void MovePlayer()
+    {
         //Call getaxis to get input from the players keyboard
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
@@ -32,7 +40,10 @@ public class PlayerController : MonoBehaviour
         transform.Translate(Vector3.right * speed * Time.deltaTime * horizontalInput);
         transform.Translate(Vector3.up * speed * Time.deltaTime * verticalInput);
         //transform.Rotate(Vector3.up, turnSpeed * horizontalInput * Time.deltaTime);
+    }
 
+    void RestrictPlayer()
+    {
         //Ensure the player can't leave the camera view - Potentially put this in another method for clean code
         if (transform.position.x < -horizontalBound)
         {
@@ -50,12 +61,9 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, bottomBound, transform.position.z);
         }
-            fireProjectile();
-        
     }
-
     //Create a method to fire a projectile
-    void fireProjectile()
+    void FireProjectile()
     {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time >= lastFireTime + fireCooldown)
         {
