@@ -7,30 +7,68 @@ public class PlayerController : MonoBehaviour
     //Add variables to control players movement speed
     public float speed = 10.0f;
     //public float turnSpeed = 50.0f;
+    public float fireRate = 0.5f;
+    private bool canFire = true;
     private float horizontalInput;
     private float verticalInput;
     private float horizontalBound = 8.5f;
     private float topBound = 4.3f;
     private float bottomBound = -1.8f;
     private Vector3 offset = new Vector3(0.07f, -0.54f, 1.37f);
-    private float fireCooldown = 0.5f;
-    private float lastFireTime = 0.0f;
     public GameObject projectilePrefab;
+    public int lives = 3;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
         MovePlayer();
+        ManageLives();
         RestrictPlayer();
         FireProjectile();
         
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Asteroid"))
+        {
+            lives--;
+            Destroy(collision.gameObject);
+            if (lives == 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+        if (collision.gameObject.CompareTag("Projectile"))
+        {
+            lives--;
+            Destroy(collision.gameObject);
+            if (lives == 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Life up"))
+        {
+            lives++;
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("Rapid fire"))
+        {
+            fireRate = 0.25f;
+            Destroy(other.gameObject);
+            StartCoroutine(RapidFireCountdownRoutine());
+        }
+    }
     void MovePlayer()
     {
         //Call getaxis to get input from the players keyboard
@@ -44,7 +82,7 @@ public class PlayerController : MonoBehaviour
 
     void RestrictPlayer()
     {
-        //Ensure the player can't leave the camera view - Potentially put this in another method for clean code
+        //Ensure the player can't leave the camera view
         if (transform.position.x < -horizontalBound)
         {
             transform.position = new Vector3(-horizontalBound, transform.position.y, transform.position.z);
@@ -65,10 +103,32 @@ public class PlayerController : MonoBehaviour
     //Create a method to fire a projectile
     void FireProjectile()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time >= lastFireTime + fireCooldown)
+        if (Input.GetKeyDown(KeyCode.Space) && canFire)
         {
             Instantiate(projectilePrefab, transform.position + offset, projectilePrefab.transform.rotation);
-            lastFireTime = Time.time;
+            StartCoroutine(FireProjectileCountdownRoutine());
         }
+    }
+
+    IEnumerator FireProjectileCountdownRoutine()
+    {
+        canFire = false;
+        yield return new WaitForSeconds(fireRate);
+        canFire = true;
+    }
+
+    IEnumerator RapidFireCountdownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        fireRate = 0.5f;
+    }
+
+    void ManageLives()
+    {
+        if (lives > 3)
+        {
+            lives = 3;
+        }
+        
     }
 }

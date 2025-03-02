@@ -17,15 +17,16 @@ public class MoveForward : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.CompareTag("Projectile"))
+        ControlObjectMovement();
+    }
+
+    void ControlObjectMovement()
+    {
+        if (gameObject.CompareTag("Projectile") || gameObject.CompareTag("Enemy"))
         {
             transform.Translate(Vector3.up * Time.deltaTime * speed);
         }
-        if (gameObject.CompareTag("Enemy"))
-        {
-            transform.Translate(Vector3.up * Time.deltaTime * speed);
-        }
-        if (gameObject.CompareTag("Asteroid"))
+        if (gameObject.CompareTag("Asteroid") || gameObject.CompareTag("Life up") || gameObject.CompareTag("Rapid fire"))
         {
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
         }
@@ -37,6 +38,5 @@ public class MoveForward : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
     }
 }
