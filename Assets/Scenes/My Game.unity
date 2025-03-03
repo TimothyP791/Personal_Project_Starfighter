@@ -490,7 +490,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!114 &1334762018
 MonoBehaviour:
@@ -507,8 +507,6 @@ MonoBehaviour:
   speed: 10
   fireRate: 0.5
   projectilePrefab: {fileID: 8525027687207545206, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
-  enemyPrefab: {fileID: 3125974578899591072, guid: eef5c22133cb62843a4e76203cf0bf5e, type: 3}
-  asteroidPrefab: {fileID: 766536774983909133, guid: 0be7522c4959e2940b0c91493f2ea2fe, type: 3}
   lives: 3
 --- !u!1 &1838187409
 GameObject:
