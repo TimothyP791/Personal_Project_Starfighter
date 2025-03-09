@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
 
-    private Vector3 offset = new Vector3(-0.030f, -0.21f, -1.29f);
+    private Vector3 offset = new Vector3(-0.030f, -0.32f, -1.29f);
     public GameObject projectilePrefab;
     // Start is called before the first frame update
     void Start()

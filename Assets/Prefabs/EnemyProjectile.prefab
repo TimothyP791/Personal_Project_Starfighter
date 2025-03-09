@@ -48,6 +48,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4591435326438395730, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
+      propertyPath: m_lineColor.b
+      value: 0.024347143
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591435326438395730, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
+      propertyPath: m_lineColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591435326438395730, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
+      propertyPath: m_lineColor.r
+      value: 0.9622642
+      objectReference: {fileID: 0}
     - target: {fileID: 8525027687207545206, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
       propertyPath: m_Name
       value: EnemyProjectile

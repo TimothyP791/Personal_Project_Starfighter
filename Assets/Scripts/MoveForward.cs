@@ -6,6 +6,7 @@ public class MoveForward : MonoBehaviour
 {
     public GameObject gameObject;
     public float speed = 5f;
+    public float rotateSpeed = 50.0f;
     private float frontBound = 60.0f;
     private float backBound = -10.0f;
     // Start is called before the first frame update
@@ -29,6 +30,8 @@ public class MoveForward : MonoBehaviour
         if (gameObject.CompareTag("Asteroid") || gameObject.CompareTag("Life up") || gameObject.CompareTag("Rapid fire"))
         {
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
+            // Ensure the powerups and hazards rotate around their y axis
+
         }
         if (transform.position.z > frontBound)
         {

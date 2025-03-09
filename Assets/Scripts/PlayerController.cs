@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private float horizontalBound = 8.5f;
     private float topBound = 4.3f;
     private float bottomBound = -1.8f;
-    private Vector3 offset = new Vector3(0.07f, -0.54f, 1.37f);
+    private Vector3 offset = new Vector3(0.07f, -0.32f, 1.37f);
     public GameObject projectilePrefab;
     public int lives = 3;
     // Start is called before the first frame update
