@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class AsteroidBehavior : MonoBehaviour
 {
+    private GameManager gameManager;
+    [SerializeField] private int pointValue = 5;
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -22,6 +24,7 @@ public class AsteroidBehavior : MonoBehaviour
         {
             Destroy(gameObject);
             Destroy(collision.gameObject);
+            gameManager.UpdateScore(pointValue);
         }
     }
 }

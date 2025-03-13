@@ -14,13 +14,15 @@ public class PlayerController : MonoBehaviour
     private float horizontalBound = 8.5f;
     private float topBound = 4.3f;
     private float bottomBound = -1.8f;
-    private Vector3 offset = new Vector3(0.07f, -0.32f, 1.37f);
+    // TODO: Apply Serialized Field to make the offset variable visible in the Unity Editor
+    [SerializeField] private Vector3 offset = new Vector3(0.07f, -0.32f, 1.37f);
     public GameObject projectilePrefab;
     public int lives = 3;
+    public GameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
-
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -39,18 +41,22 @@ public class PlayerController : MonoBehaviour
         {
             lives--;
             Destroy(collision.gameObject);
+            gameManager.UpdateLives(lives);
             if (lives == 0)
             {
                 Destroy(gameObject);
+                gameManager.GameOver();
             }
         }
         if (collision.gameObject.CompareTag("Projectile"))
         {
             lives--;
             Destroy(collision.gameObject);
+            gameManager.UpdateLives(lives);
             if (lives == 0)
             {
                 Destroy(gameObject);
+                gameManager.GameOver();
             }
         }
     }
@@ -61,6 +67,7 @@ public class PlayerController : MonoBehaviour
         {
             lives++;
             Destroy(other.gameObject);
+            gameManager.UpdateLives(lives);
         }
         if (other.gameObject.CompareTag("Rapid fire"))
         {
