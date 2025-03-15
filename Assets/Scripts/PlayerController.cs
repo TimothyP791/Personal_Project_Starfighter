@@ -11,18 +11,23 @@ public class PlayerController : MonoBehaviour
     private bool canFire = true;
     private float horizontalInput;
     private float verticalInput;
-    private float horizontalBound = 8.5f;
-    private float topBound = 4.3f;
-    private float bottomBound = -1.8f;
+    private float horizontalBound = 11.14f;
+    private float topBound = 5.59f;
+    private float bottomBound = -2.87f;
     // TODO: Apply Serialized Field to make the offset variable visible in the Unity Editor
     [SerializeField] private Vector3 offset = new Vector3(0.07f, -0.32f, 1.37f);
     public GameObject projectilePrefab;
     public int lives = 3;
     public GameManager gameManager;
+    public AudioClip shootSound;
+    public AudioClip deathSound;
+    public AudioClip deathOther;
+    private AudioSource playerAudio;
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -35,15 +40,18 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    //TODO: add particle effects
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Asteroid"))
         {
             lives--;
             Destroy(collision.gameObject);
+            playerAudio.PlayOneShot(deathOther, 0.8f);
             gameManager.UpdateLives(lives);
             if (lives == 0)
             {
+                PlaySoundAndDestroy();
                 Destroy(gameObject);
                 gameManager.GameOver();
             }
@@ -55,10 +63,23 @@ public class PlayerController : MonoBehaviour
             gameManager.UpdateLives(lives);
             if (lives == 0)
             {
+                PlaySoundAndDestroy();
                 Destroy(gameObject);
                 gameManager.GameOver();
             }
         }
+    }
+
+    void PlaySoundAndDestroy()
+    {
+        GameObject tempAudio = new GameObject("TempAudioSource"); // Create a temporary GameObject
+        AudioSource audioSource = tempAudio.AddComponent<AudioSource>(); // Add an AudioSource
+        audioSource.clip = deathSound;
+        audioSource.volume = 10000.0f; // Set volume higher than 1.0 (adjust as needed)
+        audioSource.spatialBlend = 0f; // Ensure it's a 2D sound if needed
+        audioSource.Play();
+
+        Destroy(tempAudio, deathSound.length); // Destroy after the sound finishes
     }
 
     void OnTriggerEnter(Collider other)
@@ -113,6 +134,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && canFire)
         {
             Instantiate(projectilePrefab, transform.position + offset, projectilePrefab.transform.rotation);
+            playerAudio.PlayOneShot(shootSound, 0.3f);
             StartCoroutine(FireProjectileCountdownRoutine());
         }
     }
@@ -136,6 +158,5 @@ public class PlayerController : MonoBehaviour
         {
             lives = 3;
         }
-        
     }
 }

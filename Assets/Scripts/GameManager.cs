@@ -23,9 +23,9 @@ public class GameManager : MonoBehaviour
     public GameObject playerMetrics;
 
     //TODO: Apply Serialized Field to make the horizontalBound, topBound, and bottomBound variables visible in the Unity Editor when testing camera offset
-    private float horizontalBound = 8.5f;
-    private float topBound = 4.3f;
-    private float bottomBound = -1.8f;
+    private float horizontalBound = 11.0f;
+    private float topBound = 5.0f;
+    private float bottomBound = -2.87f;
     private float enemyStartDelay = 1.0f;
     private float powerupStartDelay = 10.0f;
     private float hazardStartDelay = 1.5f;
