@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     //Add variables to control players movement speed
-    public float speed = 10.0f;
-    //public float turnSpeed = 50.0f;
+    public float moveForce = 300.0f;
+    public float turnSpeed = 50.0f;
     public float fireRate = 0.5f;
     private bool canFire = true;
     private float horizontalInput;
@@ -23,11 +23,14 @@ public class PlayerController : MonoBehaviour
     public AudioClip deathSound;
     public AudioClip deathOther;
     private AudioSource playerAudio;
+    public ParticleSystem explosionParticle;
+    private Rigidbody playerRb;
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         playerAudio = GetComponent<AudioSource>();
+        playerRb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -80,6 +83,13 @@ public class PlayerController : MonoBehaviour
         audioSource.Play();
 
         Destroy(tempAudio, deathSound.length); // Destroy after the sound finishes
+
+        if (explosionParticle != null)
+        {
+            ParticleSystem explosionEffect = Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation); //Could replace transform.rotation with Quaternion.identity
+            explosionEffect.Play();
+            Destroy(explosionEffect.gameObject, explosionEffect.main.duration);
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -97,15 +107,25 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(RapidFireCountdownRoutine());
         }
     }
+    
     void MovePlayer()
     {
         //Call getaxis to get input from the players keyboard
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
         //Add a rotation to the movement to make it look natural
-        transform.Translate(Vector3.right * speed * Time.deltaTime * horizontalInput);
-        transform.Translate(Vector3.up * speed * Time.deltaTime * verticalInput);
-        //transform.Rotate(Vector3.up, turnSpeed * horizontalInput * Time.deltaTime);
+        playerRb.AddForce(Vector3.right * moveForce * Time.deltaTime * horizontalInput);
+        playerRb.AddForce(Vector3.up * moveForce * Time.deltaTime * verticalInput);
+        transform.Rotate(Vector3.back * turnSpeed * horizontalInput * Time.deltaTime);
+
+        if (transform.rotation.z > 25)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 25);
+        }
+        if (transform.rotation.z < -25)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, -25);
+        }
     }
 
     void RestrictPlayer()

@@ -7,6 +7,8 @@ public class AsteroidBehavior : MonoBehaviour
     private GameManager gameManager;
     [SerializeField] private int pointValue = 5;
     public AudioClip explosion;
+    public ParticleSystem explosionParticle;
+    private bool isDestroyed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,19 +29,36 @@ public class AsteroidBehavior : MonoBehaviour
         audioSource.volume = 30000.0f; // Set volume higher than 1.0 (adjust as needed)
         audioSource.spatialBlend = 0f; // Ensure it's a 2D sound if needed
         audioSource.Play();
-
         Destroy(tempAudio, explosion.length); // Destroy after the sound finishes
+
+        //Separate instantiation of explosion particle so it plays after asteroid is destroyed
+        if (explosionParticle != null)
+        {
+            ParticleSystem explosionEffect = Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation); //Could replace transform.rotation with Quaternion.identity
+            explosionEffect.Play();
+            Destroy(explosionEffect.gameObject, explosionEffect.main.duration);
+        }
     }
 
-    //TODO: add particle effects
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Projectile"))
         {
-            PlaySoundAndDestroy();
-            Destroy(gameObject);
-            Destroy(collision.gameObject);
-            gameManager.UpdateScore(pointValue);
+            
+            if (!isDestroyed)
+            {
+                isDestroyed = true;
+                PlaySoundAndDestroy();
+                Destroy(collision.gameObject);
+                gameManager.UpdateScore(pointValue);
+                StartCoroutine(DestroyAfterPhysicsFrame());
+            }
         }
+    }
+    // Use wait for fixed update to destroy the asteroid after the physics frame so that Unity can reconcile with the physics engine
+    IEnumerator DestroyAfterPhysicsFrame()
+    {
+        yield return new WaitForFixedUpdate();
+        Destroy(gameObject);
     }
 }

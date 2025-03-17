@@ -143,6 +143,7 @@ MonoBehaviour:
   pointValue: 10
   enemyShoot: {fileID: 8300000, guid: 01167a1df79e7a44383bc61473be1d13, type: 3}
   enemyDeath: {fileID: 8300000, guid: c0d477db35757424787a726cdeae4de1, type: 3}
+  explosionParticle: {fileID: 19800008, guid: fcee421d39e019c43b76b9b23329372d, type: 3}
 --- !u!54 &-6263745098036651072
 Rigidbody:
   m_ObjectHideFlags: 0

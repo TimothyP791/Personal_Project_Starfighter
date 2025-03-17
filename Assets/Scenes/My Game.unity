@@ -2211,6 +2211,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5563177083516510549, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
+      propertyPath: m_Constraints
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6288619560104915885, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6739364420933070400, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2271,6 +2279,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 393388949}
+    - target: {fileID: 7581405490741488560, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
+      propertyPath: explosionParticle
+      value: 
+      objectReference: {fileID: 19800008, guid: fcee421d39e019c43b76b9b23329372d, type: 3}
     - target: {fileID: 9093832627306925264, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
       propertyPath: m_Convex
       value: 1

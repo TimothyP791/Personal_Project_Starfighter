@@ -12,6 +12,8 @@ public class EnemyController : MonoBehaviour
     private AudioSource enemyAudio;
     public AudioClip enemyShoot;
     public AudioClip enemyDeath;
+    public ParticleSystem explosionParticle;
+    private bool isDestroyed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,18 +45,43 @@ public class EnemyController : MonoBehaviour
         audioSource.Play();
 
         Destroy(tempAudio, enemyDeath.length); // Destroy after the sound finishes
+
+        if (explosionParticle != null)
+        {
+            ParticleSystem explosionEffect = Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation); //Could replace transform.rotation with Quaternion.identity
+            explosionEffect.Play();
+            Destroy(explosionEffect.gameObject, explosionEffect.main.duration);
+        }
     }
     //TODO: add particle effects
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Projectile"))
         {
-            PlaySoundAndDestroy();
-            Destroy(gameObject);
-            Destroy(collision.gameObject);
-            gameManager.UpdateScore(pointValue);
+            if (!isDestroyed)
+            {
+                isDestroyed = true;
+                PlaySoundAndDestroy();
+                Destroy(collision.gameObject);
+                gameManager.UpdateScore(pointValue);
+                StartCoroutine(DestroyAfterPhysicsFrame());
+            }
+        }
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (!isDestroyed)
+            {
+                isDestroyed = true;
+                PlaySoundAndDestroy();
+                StartCoroutine(DestroyAfterPhysicsFrame());
+            }
         }
     }
 
-    //TODO: Create a method for the enemy to follow the player as it approches them in the scene
+    IEnumerator DestroyAfterPhysicsFrame()
+    {
+        yield return new WaitForFixedUpdate();
+        Destroy(gameObject);
+    }
 }

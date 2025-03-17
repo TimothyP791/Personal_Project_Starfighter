@@ -165,6 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointValue: 5
   explosion: {fileID: 8300000, guid: c0d477db35757424787a726cdeae4de1, type: 3}
+  explosionParticle: {fileID: 19800004, guid: 892b7546c4450e04ebe1c0fe562e15be, type: 3}
 --- !u!1001 &8764848403388708603
 PrefabInstance:
   m_ObjectHideFlags: 0
