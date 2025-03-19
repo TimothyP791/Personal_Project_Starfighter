@@ -110,6 +110,9 @@ public class PlayerController : MonoBehaviour
     
     void MovePlayer()
     {
+        //Get the current rotation of the player
+        Vector3 currentRotation = transform.eulerAngles;
+
         //Call getaxis to get input from the players keyboard
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
@@ -118,11 +121,16 @@ public class PlayerController : MonoBehaviour
         playerRb.AddForce(Vector3.up * moveForce * Time.deltaTime * verticalInput);
         transform.Rotate(Vector3.back * turnSpeed * horizontalInput * Time.deltaTime);
 
-        if (transform.rotation.z > 25)
+        //Unity stores rotations form 0 - 360, so -30 becomes 330
+        //To fix this we convert values greater than 180 to negative values using statement below
+        float zRotation = (currentRotation.z > 180) ? currentRotation.z - 360 : currentRotation.z;
+
+        //Now zRotation will be between -180 and 180
+        if (zRotation > 25)
         {
             transform.rotation = Quaternion.Euler(0, 0, 25);
         }
-        if (transform.rotation.z < -25)
+        if (zRotation < -25)
         {
             transform.rotation = Quaternion.Euler(0, 0, -25);
         }
