@@ -4,27 +4,32 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //Add variables to control players movement speed
+    //Public variables
     public float moveForce = 300.0f;
     public float turnSpeed = 50.0f;
     public float fireRate = 0.5f;
-    private bool canFire = true;
+    public int lives = 3;
+    public bool canMove = false;
+    public GameObject projectilePrefab;
+    public GameManager gameManager;
+    public AudioClip hitSound;
+    public AudioClip shootSound;
+    public AudioClip deathSound;
+    public AudioClip deathOther;
+    public ParticleSystem explosionParticle;
+
+    [SerializeField] private Vector3 offset = new Vector3(0.07f, -0.32f, 1.37f);
+
+    //Private variables
     private float horizontalInput;
     private float verticalInput;
     private float horizontalBound = 11.14f;
     private float topBound = 5.59f;
     private float bottomBound = -2.87f;
-    // TODO: Apply Serialized Field to make the offset variable visible in the Unity Editor
-    [SerializeField] private Vector3 offset = new Vector3(0.07f, -0.32f, 1.37f);
-    public GameObject projectilePrefab;
-    public int lives = 3;
-    public GameManager gameManager;
-    public AudioClip shootSound;
-    public AudioClip deathSound;
-    public AudioClip deathOther;
-    private AudioSource playerAudio;
-    public ParticleSystem explosionParticle;
+    private bool canFire = true;
     private Rigidbody playerRb;
+    private AudioSource playerAudio;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,14 +41,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MovePlayer();
+        if (canMove)
+        {
+            MovePlayer();
+        }
         ManageLives();
         RestrictPlayer();
         FireProjectile();
         
     }
 
-    //TODO: add particle effects
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Asteroid"))
@@ -63,6 +70,7 @@ public class PlayerController : MonoBehaviour
         {
             lives--;
             Destroy(collision.gameObject);
+            playerAudio.PlayOneShot(hitSound, 0.8f);
             gameManager.UpdateLives(lives);
             if (lives == 0)
             {
@@ -107,7 +115,8 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(RapidFireCountdownRoutine());
         }
     }
-    
+
+    //TODO: Utilize restrict player to stop adding force when player reaches the bounds of the screen
     void MovePlayer()
     {
         //Get the current rotation of the player

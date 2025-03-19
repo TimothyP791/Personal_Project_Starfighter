@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
         playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
         UpdateScore(score);
         UpdateLives(playerControllerScript.lives);
+        playerControllerScript.canMove = true;
         playerMetrics.gameObject.SetActive(true);
         InvokeRepeating("SpawnRandomEnemy", enemyStartDelay, enemySpawnRate);
         InvokeRepeating("SpawnRandomHazard", hazardStartDelay, hazardSpawnRate);

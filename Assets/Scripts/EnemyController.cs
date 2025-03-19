@@ -53,7 +53,7 @@ public class EnemyController : MonoBehaviour
             Destroy(explosionEffect.gameObject, explosionEffect.main.duration);
         }
     }
-    //TODO: add particle effects
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Projectile"))
