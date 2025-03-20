@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private float topBound = 5.59f;
     private float bottomBound = -2.87f;
     private bool canFire = true;
+    //private Vector3 currentPosition;
     private Rigidbody playerRb;
     private AudioSource playerAudio;
 
@@ -121,7 +122,6 @@ public class PlayerController : MonoBehaviour
     {
         //Get the current rotation of the player
         Vector3 currentRotation = transform.eulerAngles;
-
         //Call getaxis to get input from the players keyboard
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
@@ -129,6 +129,25 @@ public class PlayerController : MonoBehaviour
         playerRb.AddForce(Vector3.right * moveForce * Time.deltaTime * horizontalInput);
         playerRb.AddForce(Vector3.up * moveForce * Time.deltaTime * verticalInput);
         transform.Rotate(Vector3.back * turnSpeed * horizontalInput * Time.deltaTime);
+
+        //Ensure the player loses force applied in boundary direction so that they can move back in bounds quickly
+        if (transform.position.x <= -horizontalBound)
+        {
+            playerRb.velocity = Vector3.zero;
+        }
+        else if (transform.position.x >= horizontalBound)
+        {
+            playerRb.velocity = Vector3.zero;
+        }
+        else if (transform.position.y >= topBound)
+        {
+            playerRb.velocity = Vector3.zero;
+        }
+        else if (transform.position.y <= bottomBound)
+        {
+            playerRb.velocity = Vector3.zero;
+        }
+
 
         //Unity stores rotations form 0 - 360, so -30 becomes 330
         //To fix this we convert values greater than 180 to negative values using statement below
