@@ -62,7 +62,7 @@ public class EnemyController : MonoBehaviour
             {
                 isDestroyed = true;
                 PlaySoundAndDestroy();
-                Destroy(collision.gameObject);
+                collision.gameObject.SetActive(false);
                 gameManager.UpdateScore(pointValue);
                 StartCoroutine(DestroyAfterPhysicsFrame());
             }

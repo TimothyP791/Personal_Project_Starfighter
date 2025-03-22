@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MoveForward : MonoBehaviour
 {
-    public GameObject gameObject;
     public float speed = 5f;
     public float rotateSpeed = 50.0f;
     private float frontBound = 60.0f;
@@ -25,17 +24,18 @@ public class MoveForward : MonoBehaviour
     {
         if (gameObject.CompareTag("Projectile") || gameObject.CompareTag("Enemy"))
         {
-            transform.Translate(Vector3.up * Time.deltaTime * speed);
+            transform.position += transform.up * Time.deltaTime * speed;
         }
         if (gameObject.CompareTag("Asteroid") || gameObject.CompareTag("Life up") || gameObject.CompareTag("Rapid fire"))
         {
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
-            // Ensure the powerups and hazards rotate around their y axis
+            // TODO: Ensure the powerups and hazards rotate around their y axis
 
         }
-        if (transform.position.z > frontBound)
+        if (transform.position.z > frontBound) // || transform.position.z < backBound)
         {
-            Destroy(gameObject);
+            //changed from destroy for object pooling
+            gameObject.SetActive(false);
         }
         if (transform.position.z < backBound)
         {

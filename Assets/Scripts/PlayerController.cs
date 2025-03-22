@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //TODO: Add audio clips for powerup collection
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Life up"))
@@ -117,7 +118,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //TODO: Utilize restrict player to stop adding force when player reaches the bounds of the screen
     void MovePlayer()
     {
         //Get the current rotation of the player
@@ -133,19 +133,19 @@ public class PlayerController : MonoBehaviour
         //Ensure the player loses force applied in boundary direction so that they can move back in bounds quickly
         if (transform.position.x <= -horizontalBound)
         {
-            playerRb.velocity = Vector3.zero;
+            playerRb.velocity = new Vector3(0, playerRb.velocity.y, playerRb.velocity.z);
         }
         else if (transform.position.x >= horizontalBound)
         {
-            playerRb.velocity = Vector3.zero;
+            playerRb.velocity = new Vector3(0, playerRb.velocity.y, playerRb.velocity.z);
         }
         else if (transform.position.y >= topBound)
         {
-            playerRb.velocity = Vector3.zero;
+            playerRb.velocity = new Vector3(playerRb.velocity.x, 0, playerRb.velocity.z);
         }
         else if (transform.position.y <= bottomBound)
         {
-            playerRb.velocity = Vector3.zero;
+            playerRb.velocity = new Vector3(playerRb.velocity.x, 0, playerRb.velocity.z);
         }
 
 
@@ -189,9 +189,23 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && canFire)
         {
-            Instantiate(projectilePrefab, transform.position + offset, projectilePrefab.transform.rotation);
-            playerAudio.PlayOneShot(shootSound, 0.3f);
-            StartCoroutine(FireProjectileCountdownRoutine());
+            //Instantiate(projectilePrefab, transform.position + offset, projectilePrefab.transform.rotation);
+            GameObject pooledProjectile = ObjectPooler.SharedInstance.GetPooledObject();
+            if (pooledProjectile != null)
+            {
+                pooledProjectile.SetActive(true);
+                pooledProjectile.transform.position = transform.position + offset;
+                pooledProjectile.transform.rotation = projectilePrefab.transform.rotation;
+
+                Rigidbody rb = pooledProjectile.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.velocity = Vector3.zero;
+                    rb.AddForce(transform.forward * 20.0f, ForceMode.Impulse);
+                }
+                playerAudio.PlayOneShot(shootSound, 0.3f);
+                StartCoroutine(FireProjectileCountdownRoutine());
+            }    
         }
     }
 
