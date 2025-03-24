@@ -7,20 +7,18 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject[] spawnEnemy;
-    public GameObject[] spawnHazards;
-    public GameObject[] spawnPowerups;
-
-    public TextMeshProUGUI scoreText;
+   public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI gameOverText;
     private int score = 0;
     public bool isGameActive;
     public PlayerController playerControllerScript;
+    public ObjectPooler objectPoolerScript;
     public Button restartButton;
     public Button StartButton;
     public GameObject titleScreen;
     public GameObject playerMetrics;
+    public GameObject[] spawnPowerups;
 
     //TODO: Apply Serialized Field to make the horizontalBound, topBound, and bottomBound variables visible in the Unity Editor when testing camera offset
     private float horizontalBound = 11.0f;
@@ -84,19 +82,30 @@ public class GameManager : MonoBehaviour
 
     void SpawnRandomHazard()
     {
-        GameObject hazard = spawnHazards[Random.Range(0, spawnHazards.Length)];
-        Instantiate(hazard, new Vector3(Random.Range(-horizontalBound, horizontalBound), Random.Range(bottomBound, topBound), 55), hazard.transform.rotation);
+        //Checks if pooled object should be of type Asteroid
+        GameObject pooledHazard = ObjectPooler.SharedInstance.GetPooledObject(objectPoolerScript.asteroidObjects[0]);
+        if (pooledHazard != null)
+        {
+            pooledHazard.SetActive(true); // activate it
+            pooledHazard.transform.position = new Vector3(Random.Range(-horizontalBound, horizontalBound), Random.Range(bottomBound, topBound), 55);
+        }
     }
 
     void SpawnRandomPowerup()
     {
         GameObject powerup = spawnPowerups[Random.Range(0, spawnPowerups.Length)];
         Instantiate(powerup, new Vector3(Random.Range(-horizontalBound, horizontalBound), Random.Range(bottomBound, topBound), 55), powerup.transform.rotation);
+
     }
 
     void SpawnRandomEnemy()
     {
-        GameObject enemy = spawnEnemy[Random.Range(0, spawnEnemy.Length)];
-        Instantiate(enemy, new Vector3(Random.Range(-horizontalBound, horizontalBound), Random.Range(bottomBound, topBound), 55), enemy.transform.rotation);
+        //Checks if pooled object should be of type enemy
+        GameObject pooledEnemy = ObjectPooler.SharedInstance.GetPooledObject(objectPoolerScript.enemyObjects[0]);
+        if (pooledEnemy != null)
+        {
+            pooledEnemy.SetActive(true); // activate it
+            pooledEnemy.transform.position = new Vector3(Random.Range(-horizontalBound, horizontalBound), Random.Range(bottomBound, topBound), 55);
+        }
     }
 }

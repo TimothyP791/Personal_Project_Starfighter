@@ -56,9 +56,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Asteroid"))
         {
-            lives--;
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             playerAudio.PlayOneShot(deathOther, 0.8f);
+            lives--;
             gameManager.UpdateLives(lives);
             if (lives == 0)
             {
@@ -67,11 +67,12 @@ public class PlayerController : MonoBehaviour
                 gameManager.GameOver();
             }
         }
+        //TODO: figure out why it takes two lives on collision instead of one
         if (collision.gameObject.CompareTag("Projectile"))
         {
-            lives--;
             Destroy(collision.gameObject);
             playerAudio.PlayOneShot(hitSound, 0.8f);
+            lives--;
             gameManager.UpdateLives(lives);
             if (lives == 0)
             {
@@ -104,16 +105,16 @@ public class PlayerController : MonoBehaviour
     //TODO: Add audio clips for powerup collection
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Life up"))
+        if (other.gameObject.CompareTag("Life Up"))
         {
             lives++;
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
             gameManager.UpdateLives(lives);
         }
-        if (other.gameObject.CompareTag("Rapid fire"))
+        if (other.gameObject.CompareTag("Rapid Fire"))
         {
             fireRate = 0.25f;
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
             StartCoroutine(RapidFireCountdownRoutine());
         }
     }
@@ -189,8 +190,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && canFire)
         {
-            //Instantiate(projectilePrefab, transform.position + offset, projectilePrefab.transform.rotation);
-            GameObject pooledProjectile = ObjectPooler.SharedInstance.GetPooledObject();
+            GameObject pooledProjectile = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab);
             if (pooledProjectile != null)
             {
                 pooledProjectile.SetActive(true);

@@ -341,6 +341,7 @@ GameObject:
   m_Component:
   - component: {fileID: 393388950}
   - component: {fileID: 393388949}
+  - component: {fileID: 393388951}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -360,26 +361,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5143caf26dcadd94e8067c1addc7674c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnEnemy:
-  - {fileID: 3125974578899591072, guid: eef5c22133cb62843a4e76203cf0bf5e, type: 3}
-  - {fileID: 3744367646960292050, guid: dd09a7caace818041b0958a446a901ca, type: 3}
-  - {fileID: 7330989470893903146, guid: cdf717eec57877148bd1bcf433bdd21b, type: 3}
-  spawnHazards:
-  - {fileID: 766536774983909133, guid: 0be7522c4959e2940b0c91493f2ea2fe, type: 3}
-  - {fileID: 3303087443254855755, guid: ba2c3eb187bfdff4c8bd67d709c2846b, type: 3}
-  - {fileID: 3376804430501518950, guid: 5705d3bcd743d224bb23bcbe23cb99b6, type: 3}
-  spawnPowerups:
-  - {fileID: 6193167584489664141, guid: c80bd76095c69d744a8804bc8f63f074, type: 3}
-  - {fileID: 4180177935043573135, guid: e4fd66b6b979a16448fe13ed3e775dc6, type: 3}
   scoreText: {fileID: 2073765918}
   livesText: {fileID: 1632357522}
   gameOverText: {fileID: 1008707067}
   isGameActive: 0
   playerControllerScript: {fileID: 2081521746}
+  objectPoolerScript: {fileID: 393388951}
   restartButton: {fileID: 1231143276}
   StartButton: {fileID: 1531002901}
   titleScreen: {fileID: 100023296}
   playerMetrics: {fileID: 237363674}
+  spawnPowerups:
+  - {fileID: 4180177935043573135, guid: e4fd66b6b979a16448fe13ed3e775dc6, type: 3}
+  - {fileID: 6193167584489664141, guid: c80bd76095c69d744a8804bc8f63f074, type: 3}
 --- !u!4 &393388950
 Transform:
   m_ObjectHideFlags: 0
@@ -395,6 +389,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &393388951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393388948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a4eec2998262c498d799c6a0d4b65f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledObjects: []
+  enemyObjects: []
+  asteroidObjects: []
+  powerupObjects: []
+  objectToPool: {fileID: 8525027687207545206, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
+  enemyPool:
+  - {fileID: 3125974578899591072, guid: eef5c22133cb62843a4e76203cf0bf5e, type: 3}
+  - {fileID: 3744367646960292050, guid: dd09a7caace818041b0958a446a901ca, type: 3}
+  - {fileID: 7330989470893903146, guid: cdf717eec57877148bd1bcf433bdd21b, type: 3}
+  asteroidPool:
+  - {fileID: 766536774983909133, guid: 0be7522c4959e2940b0c91493f2ea2fe, type: 3}
+  - {fileID: 3303087443254855755, guid: ba2c3eb187bfdff4c8bd67d709c2846b, type: 3}
+  - {fileID: 3376804430501518950, guid: 5705d3bcd743d224bb23bcbe23cb99b6, type: 3}
+  amountToPool: 6
+  enemyAmountToPool: 5
+  asteroidAmountToPool: 5
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195,21 +2217,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2081521752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1732693092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22a4eec2998262c498d799c6a0d4b65f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pooledObjects: []
-  objectToPool: {fileID: 8525027687207545206, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
-  amountToPool: 20
 --- !u!1001 &6801325287393855826
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2228,7 +2235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5563177083516510549, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
       propertyPath: m_Constraints
-      value: 56
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 6288619560104915885, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
       propertyPath: m_Enabled
@@ -2322,9 +2329,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4104379447680539535, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2081521751}
-    - targetCorrespondingSourceObject: {fileID: 4104379447680539535, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2081521752}
   m_SourcePrefab: {fileID: 100100000, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

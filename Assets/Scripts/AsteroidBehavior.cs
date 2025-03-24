@@ -59,6 +59,6 @@ public class AsteroidBehavior : MonoBehaviour
     IEnumerator DestroyAfterPhysicsFrame()
     {
         yield return new WaitForFixedUpdate();
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

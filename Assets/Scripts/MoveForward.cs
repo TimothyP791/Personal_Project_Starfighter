@@ -26,18 +26,19 @@ public class MoveForward : MonoBehaviour
         {
             transform.position += transform.up * Time.deltaTime * speed;
         }
-        if (gameObject.CompareTag("Asteroid") || gameObject.CompareTag("Life up") || gameObject.CompareTag("Rapid fire"))
+        if (gameObject.CompareTag("Asteroid") || gameObject.CompareTag("Rapid Fire") || gameObject.CompareTag("Life Up"))
         {
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
             // TODO: Ensure the powerups and hazards rotate around their y axis
+            // potentially add shield
 
         }
-        if (transform.position.z > frontBound) // || transform.position.z < backBound)
+        if ((transform.position.z > frontBound || transform.position.z < backBound) && (!gameObject.CompareTag("Rapid Fire") || !gameObject.CompareTag("Life Up")))
         {
             //changed from destroy for object pooling
             gameObject.SetActive(false);
         }
-        if (transform.position.z < backBound)
+        if ((transform.position.z > frontBound || transform.position.z < backBound) && (gameObject.CompareTag("Rapid Fire") || gameObject.CompareTag("Life Up")))
         {
             Destroy(gameObject);
         }
