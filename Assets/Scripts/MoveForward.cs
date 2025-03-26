@@ -30,7 +30,7 @@ public class MoveForward : MonoBehaviour
         {
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
             // TODO: Ensure the powerups and hazards rotate around their y axis
-            // potentially add shield
+            // potentially add shield: Use System04 sound for shield powerup
 
         }
         if ((transform.position.z > frontBound || transform.position.z < backBound) && (!gameObject.CompareTag("Rapid Fire") || !gameObject.CompareTag("Life Up")))

@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public AudioClip shootSound;
     public AudioClip deathSound;
     public AudioClip deathOther;
+    public AudioClip lifeUpSound;
+    public AudioClip rapidFireSound;
     public ParticleSystem explosionParticle;
 
     [SerializeField] private Vector3 offset = new Vector3(0.07f, -0.32f, 1.37f);
@@ -62,7 +64,7 @@ public class PlayerController : MonoBehaviour
             gameManager.UpdateLives(lives);
             if (lives == 0)
             {
-                PlaySoundAndDestroy();
+                PlaySoundAndDestroy(deathSound, explosionParticle);
                 Destroy(gameObject);
                 gameManager.GameOver();
             }
@@ -72,29 +74,33 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(collision.gameObject);
             playerAudio.PlayOneShot(hitSound, 0.8f);
-            lives--;
-            gameManager.UpdateLives(lives);
-            if (lives == 0)
+            
+            if (lives > 0)
             {
-                PlaySoundAndDestroy();
+                lives--;
+                gameManager.UpdateLives(lives);
+            }  
+            if (lives <= 0)
+            {
+                PlaySoundAndDestroy(deathSound, explosionParticle);
                 Destroy(gameObject);
                 gameManager.GameOver();
             }
         }
     }
 
-    void PlaySoundAndDestroy()
+    void PlaySoundAndDestroy(AudioClip clip, ParticleSystem particle)
     {
         GameObject tempAudio = new GameObject("TempAudioSource"); // Create a temporary GameObject
         AudioSource audioSource = tempAudio.AddComponent<AudioSource>(); // Add an AudioSource
-        audioSource.clip = deathSound;
+        audioSource.clip = clip;
         audioSource.volume = 10000.0f; // Set volume higher than 1.0 (adjust as needed)
         audioSource.spatialBlend = 0f; // Ensure it's a 2D sound if needed
         audioSource.Play();
 
-        Destroy(tempAudio, deathSound.length); // Destroy after the sound finishes
+        Destroy(tempAudio, clip.length); // Destroy after the sound finishes
 
-        if (explosionParticle != null)
+        if (particle != null)
         {
             ParticleSystem explosionEffect = Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation); //Could replace transform.rotation with Quaternion.identity
             explosionEffect.Play();
@@ -108,15 +114,18 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Life Up"))
         {
             lives++;
-            other.gameObject.SetActive(false);
+            Destroy(other.gameObject);
+            PlaySoundAndDestroy(lifeUpSound, null);
             gameManager.UpdateLives(lives);
         }
         if (other.gameObject.CompareTag("Rapid Fire"))
         {
             fireRate = 0.25f;
-            other.gameObject.SetActive(false);
+            Destroy(other.gameObject);
+            PlaySoundAndDestroy(rapidFireSound, null);
             StartCoroutine(RapidFireCountdownRoutine());
         }
+        //Use System04 sound for shield power up if added
     }
 
     void MovePlayer()
