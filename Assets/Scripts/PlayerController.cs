@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private float topBound = 5.59f;
     private float bottomBound = -2.87f;
     private bool canFire = true;
+    private bool wasHit = false;
     //private Vector3 currentPosition;
     private Rigidbody playerRb;
     private AudioSource playerAudio;
@@ -53,11 +54,12 @@ public class PlayerController : MonoBehaviour
         FireProjectile();
         
     }
-
+    //Use wasHit flag to prevent multiple collisions from being detected
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Asteroid"))
+        if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Asteroid")) && !wasHit)
         {
+            wasHit = true;
             collision.gameObject.SetActive(false);
             playerAudio.PlayOneShot(deathOther, 0.8f);
             lives--;
@@ -68,24 +70,25 @@ public class PlayerController : MonoBehaviour
                 Destroy(gameObject);
                 gameManager.GameOver();
             }
+            StartCoroutine(ResetHitFlag());
         }
-        //TODO: figure out why it takes two lives on collision instead of one
-        if (collision.gameObject.CompareTag("Projectile"))
+        
+        if (collision.gameObject.CompareTag("Projectile") && !wasHit)
         {
+            wasHit = true;
             Destroy(collision.gameObject);
             playerAudio.PlayOneShot(hitSound, 0.8f);
             
-            if (lives > 0)
-            {
-                lives--;
-                gameManager.UpdateLives(lives);
-            }  
+            lives--;
+            gameManager.UpdateLives(lives);
+            
             if (lives <= 0)
             {
                 PlaySoundAndDestroy(deathSound, explosionParticle);
                 Destroy(gameObject);
                 gameManager.GameOver();
             }
+            StartCoroutine(ResetHitFlag());
         }
     }
 
@@ -108,7 +111,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //TODO: Add audio clips for powerup collection
+    
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Life Up"))
@@ -225,6 +228,11 @@ public class PlayerController : MonoBehaviour
         canFire = true;
     }
 
+    IEnumerator ResetHitFlag()
+    {
+        yield return new WaitForEndOfFrame();
+        wasHit = false;
+    }
     IEnumerator RapidFireCountdownRoutine()
     {
         yield return new WaitForSeconds(5.0f);
