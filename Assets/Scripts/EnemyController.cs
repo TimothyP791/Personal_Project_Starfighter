@@ -64,8 +64,7 @@ public class EnemyController : MonoBehaviour
                 PlaySoundAndDestroy();
                 collision.gameObject.SetActive(false);
                 gameManager.UpdateScore(pointValue);
-                gameObject.SetActive(false);
-                //StartCoroutine(DestroyAfterPhysicsFrame());
+                StartCoroutine(DeactivateAfterPhysicsFrame());
             }
         }
 
@@ -75,13 +74,12 @@ public class EnemyController : MonoBehaviour
             {
                 isDestroyed = true;
                 PlaySoundAndDestroy();
-                //StartCoroutine(DestroyAfterPhysicsFrame());
-                gameObject.SetActive(false);
+                StartCoroutine(DeactivateAfterPhysicsFrame());
             }
         }
     }
 
-    IEnumerator DestroyAfterPhysicsFrame()
+    IEnumerator DeactivateAfterPhysicsFrame()
     {
         yield return new WaitForFixedUpdate();
         gameObject.SetActive(false);

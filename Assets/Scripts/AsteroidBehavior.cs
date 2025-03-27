@@ -51,12 +51,12 @@ public class AsteroidBehavior : MonoBehaviour
                 PlaySoundAndDestroy();
                 collision.gameObject.SetActive(false);
                 gameManager.UpdateScore(pointValue);
-                StartCoroutine(DestroyAfterPhysicsFrame());
+                StartCoroutine(DeactivateAfterPhysicsFrame());
             }
         }
     }
     // Use wait for fixed update to destroy the asteroid after the physics frame so that Unity can reconcile with the physics engine
-    IEnumerator DestroyAfterPhysicsFrame()
+    IEnumerator DeactivateAfterPhysicsFrame()
     {
         yield return new WaitForFixedUpdate();
         gameObject.SetActive(false);
