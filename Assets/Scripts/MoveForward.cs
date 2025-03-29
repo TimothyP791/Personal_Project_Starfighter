@@ -28,11 +28,12 @@ public class MoveForward : MonoBehaviour
         }
         if (gameObject.CompareTag("Asteroid") || gameObject.CompareTag("Rapid Fire") || gameObject.CompareTag("Life Up"))
         {
-            transform.Translate(Vector3.forward * Time.deltaTime * speed);
-            // TODO: Ensure the powerups and hazards rotate around their y axis
+            transform.position += Vector3.back * Time.deltaTime * speed;
+            transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
             // potentially add shield: Use System04 sound for shield powerup
 
         }
+        //References objects that are not powerups
         if ((transform.position.z > frontBound || transform.position.z < backBound) && (!gameObject.CompareTag("Rapid Fire") || !gameObject.CompareTag("Life Up")))
         {
             //changed from destroy for object pooling

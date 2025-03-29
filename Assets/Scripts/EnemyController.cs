@@ -22,12 +22,6 @@ public class EnemyController : MonoBehaviour
         enemyAudio = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
-
     void fireProjectile()
     {
         //Add audio clip to the projectile

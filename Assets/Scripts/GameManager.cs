@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     public GameObject playerMetrics;
     public GameObject[] spawnPowerups;
 
-    //TODO: Apply Serialized Field to make the horizontalBound, topBound, and bottomBound variables visible in the Unity Editor when testing camera offset
     private float horizontalBound = 11.0f;
     private float topBound = 5.0f;
     private float bottomBound = -2.87f;
@@ -30,17 +29,6 @@ public class GameManager : MonoBehaviour
     private float enemySpawnRate = 2.5f;
     private float powerupSpawnRate = 20.0f;
     private float hazardSpawnRate = 2.5f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void RestartGame()
     {

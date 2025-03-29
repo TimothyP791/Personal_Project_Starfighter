@@ -15,12 +15,6 @@ public class AsteroidBehavior : MonoBehaviour
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void PlaySoundAndDestroy()
     {
         GameObject tempAudio = new GameObject("TempAudioSource"); // Create a temporary GameObject
@@ -55,7 +49,7 @@ public class AsteroidBehavior : MonoBehaviour
             }
         }
     }
-    // Use wait for fixed update to destroy the asteroid after the physics frame so that Unity can reconcile with the physics engine
+    // Use wait for fixed update to deactivate the asteroid after the physics frame so that Unity can reconcile with the physics engine
     IEnumerator DeactivateAfterPhysicsFrame()
     {
         yield return new WaitForFixedUpdate();
