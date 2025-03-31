@@ -77,5 +77,7 @@ public class EnemyController : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         gameObject.SetActive(false);
+        //TODO: Find a way to cancel and restart invoke repeating;
+        //CancelInvoke();
     }
 }

@@ -22,13 +22,15 @@ public class MoveForward : MonoBehaviour
 
     void ControlObjectMovement()
     {
-        if (gameObject.CompareTag("Projectile") || gameObject.CompareTag("Enemy"))
+        if (gameObject.CompareTag("Projectile") || gameObject.CompareTag("Enemy") || gameObject.CompareTag("Enemy Projectile"))
         {
             transform.position += transform.up * Time.deltaTime * speed;
         }
         if (gameObject.CompareTag("Asteroid") || gameObject.CompareTag("Rapid Fire") || gameObject.CompareTag("Life Up"))
         {
+            //Keeps movement in the same forward direction
             transform.position += Vector3.back * Time.deltaTime * speed;
+
             transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
             // potentially add shield: Use System04 sound for shield powerup
 

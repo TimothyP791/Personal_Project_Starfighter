@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     public bool canMove = false;
     public GameObject projectilePrefab;
     public GameManager gameManager;
+    //TODO: Add shield power up 
+    //public ShieldBehaviour shieldBehaviourScript;
     public AudioClip hitSound;
     public AudioClip shootSound;
     public AudioClip deathSound;
@@ -73,7 +75,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(ResetHitFlag());
         }
         
-        if (collision.gameObject.CompareTag("Projectile") && !wasHit)
+        if (collision.gameObject.CompareTag("Enemy Projectile") && !wasHit)
         {
             wasHit = true;
             Destroy(collision.gameObject);
@@ -244,6 +246,7 @@ public class PlayerController : MonoBehaviour
         if (lives > 3)
         {
             lives = 3;
+            gameManager.UpdateLives(lives);
         }
     }
 }
