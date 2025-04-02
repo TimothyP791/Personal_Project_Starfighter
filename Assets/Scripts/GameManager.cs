@@ -18,8 +18,13 @@ public class GameManager : MonoBehaviour
     public Button StartButton;
     public GameObject titleScreen;
     public GameObject playerMetrics;
+    public GameObject enemyProjectilePrefab;
     public GameObject[] spawnPowerups;
+    //Revert back to enemyController if necessary
+    public AudioClip enemyShoot;
 
+    //Revert back to enemyController if necessary
+    private Vector3 offset = new Vector3(-0.030f, -0.32f, -1.29f);
     private float horizontalBound = 11.0f;
     private float topBound = 5.0f;
     private float bottomBound = -2.87f;
@@ -29,7 +34,15 @@ public class GameManager : MonoBehaviour
     private float enemySpawnRate = 2.5f;
     private float powerupSpawnRate = 20.0f;
     private float hazardSpawnRate = 2.5f;
+    private AudioSource enemyAudio;
+    //Remove if necessary
+    private GameObject[] enemy;
 
+    void Update()
+    {
+        enemyAudio = GetComponent<AudioSource>();
+        enemy = GameObject.FindGameObjectsWithTag("Enemy");
+    }
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -94,6 +107,32 @@ public class GameManager : MonoBehaviour
         {
             pooledEnemy.SetActive(true); // activate it
             pooledEnemy.transform.position = new Vector3(Random.Range(-horizontalBound, horizontalBound), Random.Range(bottomBound, topBound), 55);
+            StartRepeating();
         }
+    }
+    //Figure out way to have all enemies fire at once
+    void fireEnemyProjectile()
+    {
+        for (int i = 0; i < enemy.Length; i++)
+        {
+            if (enemy[i].activeInHierarchy)
+            {
+                Instantiate(enemyProjectilePrefab, enemy[i].transform.position + offset, enemyProjectilePrefab.transform.rotation);
+                enemyAudio.PlayOneShot(enemyShoot, 0.3f);
+            }
+        }   
+    }
+
+    IEnumerator CancelFireOnDestruction()
+    {
+        CancelInvoke("fireProjectile");
+        yield return new WaitForSeconds(10.0f);
+        Debug.Log("Fire Cancelled");
+        StartRepeating();
+    }
+
+    private void StartRepeating()
+    {
+        InvokeRepeating("fireEnemyProjectile", 0.0f, 1.5f);
     }
 }

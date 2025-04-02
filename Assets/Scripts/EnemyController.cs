@@ -5,29 +5,28 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
 
-    private Vector3 offset = new Vector3(-0.030f, -0.32f, -1.29f);
-    public GameObject projectilePrefab;
+    //private Vector3 offset = new Vector3(-0.030f, -0.32f, -1.29f);
+    //public GameObject projectilePrefab;
     private GameManager gameManager;
     [SerializeField] private int pointValue = 10;
     private AudioSource enemyAudio;
-    public AudioClip enemyShoot;
+    //public AudioClip enemyShoot;
     public AudioClip enemyDeath;
     public ParticleSystem explosionParticle;
     private bool isDestroyed = false;
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("fireProjectile", 0.0f, 1.5f);
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        enemyAudio = GetComponent<AudioSource>();
+        //enemyAudio = GetComponent<AudioSource>();
     }
 
-    void fireProjectile()
+    // Controls enemy fire functionality
+    /*void fireProjectile()
     {
-        //Add audio clip to the projectile
         Instantiate(projectilePrefab, transform.position + offset, projectilePrefab.transform.rotation);
         enemyAudio.PlayOneShot(enemyShoot, 0.3f);
-    }
+    }*/
 
     void PlaySoundAndDestroy()
     {
@@ -58,7 +57,9 @@ public class EnemyController : MonoBehaviour
                 PlaySoundAndDestroy();
                 collision.gameObject.SetActive(false);
                 gameManager.UpdateScore(pointValue);
-                StartCoroutine(DeactivateAfterPhysicsFrame());
+                gameObject.SetActive(false);
+                //StartCoroutine(CancelFireOnDestruction());
+                gameManager.StartCoroutine("CancelFireOnDestruction");
             }
         }
 
@@ -68,16 +69,10 @@ public class EnemyController : MonoBehaviour
             {
                 isDestroyed = true;
                 PlaySoundAndDestroy();
-                StartCoroutine(DeactivateAfterPhysicsFrame());
+                gameObject.SetActive(false);
+                //StartCoroutine(CancelFireOnDestruction());
+                gameManager.StartCoroutine("CancelFireOnDestruction");
             }
         }
-    }
-
-    IEnumerator DeactivateAfterPhysicsFrame()
-    {
-        yield return new WaitForFixedUpdate();
-        gameObject.SetActive(false);
-        //TODO: Find a way to cancel and restart invoke repeating;
-        //CancelInvoke();
     }
 }

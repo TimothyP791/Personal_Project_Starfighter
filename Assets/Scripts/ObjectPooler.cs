@@ -9,7 +9,6 @@ public class ObjectPooler : MonoBehaviour
     public List<GameObject> pooledObjects;
     public List<GameObject> enemyObjects;
     public List<GameObject> asteroidObjects;
-    public List<GameObject> powerupObjects;
     public GameObject objectToPool;
     public GameObject[] enemyPool;
     public GameObject[] asteroidPool;

@@ -371,10 +371,11 @@ MonoBehaviour:
   StartButton: {fileID: 1531002901}
   titleScreen: {fileID: 100023296}
   playerMetrics: {fileID: 237363674}
+  enemyProjectilePrefab: {fileID: 2117737547867716151, guid: 84c78565a8fc0a64389be3f2f6baaab5, type: 3}
   spawnPowerups:
   - {fileID: 4180177935043573135, guid: e4fd66b6b979a16448fe13ed3e775dc6, type: 3}
   - {fileID: 6193167584489664141, guid: c80bd76095c69d744a8804bc8f63f074, type: 3}
-  - {fileID: 6193167584489664141, guid: c80bd76095c69d744a8804bc8f63f074, type: 3}
+  enemyShoot: {fileID: 8300000, guid: 01167a1df79e7a44383bc61473be1d13, type: 3}
 --- !u!4 &393388950
 Transform:
   m_ObjectHideFlags: 0
