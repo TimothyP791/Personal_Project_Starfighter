@@ -367,6 +367,7 @@ MonoBehaviour:
   isGameActive: 0
   playerControllerScript: {fileID: 2081521746}
   objectPoolerScript: {fileID: 393388951}
+  enemyControllerScript: {fileID: 0}
   restartButton: {fileID: 1231143276}
   StartButton: {fileID: 1531002901}
   titleScreen: {fileID: 100023296}
@@ -375,7 +376,6 @@ MonoBehaviour:
   spawnPowerups:
   - {fileID: 4180177935043573135, guid: e4fd66b6b979a16448fe13ed3e775dc6, type: 3}
   - {fileID: 6193167584489664141, guid: c80bd76095c69d744a8804bc8f63f074, type: 3}
-  enemyShoot: {fileID: 8300000, guid: 01167a1df79e7a44383bc61473be1d13, type: 3}
 --- !u!4 &393388950
 Transform:
   m_ObjectHideFlags: 0
@@ -406,7 +406,6 @@ MonoBehaviour:
   pooledObjects: []
   enemyObjects: []
   asteroidObjects: []
-  powerupObjects: []
   objectToPool: {fileID: 8525027687207545206, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
   enemyPool:
   - {fileID: 3125974578899591072, guid: eef5c22133cb62843a4e76203cf0bf5e, type: 3}
@@ -416,7 +415,7 @@ MonoBehaviour:
   - {fileID: 766536774983909133, guid: 0be7522c4959e2940b0c91493f2ea2fe, type: 3}
   - {fileID: 3303087443254855755, guid: ba2c3eb187bfdff4c8bd67d709c2846b, type: 3}
   - {fileID: 3376804430501518950, guid: 5705d3bcd743d224bb23bcbe23cb99b6, type: 3}
-  amountToPool: 6
+  amountToPool: 10
   enemyAmountToPool: 5
   asteroidAmountToPool: 5
 --- !u!1001 &601597813

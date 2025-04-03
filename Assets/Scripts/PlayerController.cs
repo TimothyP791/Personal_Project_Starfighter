@@ -199,7 +199,7 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector3(transform.position.x, bottomBound, transform.position.z);
         }
     }
-    //Create a method to fire a projectile
+    
     void FireProjectile()
     {
         if (Input.GetKeyDown(KeyCode.Space) && canFire)

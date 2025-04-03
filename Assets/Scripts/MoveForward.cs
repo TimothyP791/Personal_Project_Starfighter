@@ -35,12 +35,13 @@ public class MoveForward : MonoBehaviour
             // potentially add shield: Use System04 sound for shield powerup
 
         }
-        //References objects that are not powerups
-        if ((transform.position.z > frontBound || transform.position.z < backBound) && (!gameObject.CompareTag("Rapid Fire") || !gameObject.CompareTag("Life Up")))
+        //References objects that are not powerups NOTE: Add enemy projectile to objecto pooling and readd to the if statement 
+        if ((transform.position.z > frontBound || transform.position.z < backBound) && gameObject.CompareTag("Projectile")) //|| gameObject.CompareTag("Enemy Projectile"))
         {
-            //changed from destroy for object pooling
+            //changed from destroy for object pooling Enemies are handled in enemy controller for Invoke canceling reasons
             gameObject.SetActive(false);
         }
+
         if ((transform.position.z > frontBound || transform.position.z < backBound) && (gameObject.CompareTag("Rapid Fire") || gameObject.CompareTag("Life Up")))
         {
             Destroy(gameObject);
