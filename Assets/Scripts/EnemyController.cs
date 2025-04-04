@@ -38,8 +38,22 @@ public class EnemyController : MonoBehaviour
     void fireEnemyProjectile()
     {
         //TODO: Add object pooling for enemy projectiles
-        Instantiate(projectilePrefab, transform.position + offset, projectilePrefab.transform.rotation);
-        enemyAudio.PlayOneShot(enemyShoot, 0.3f);
+        GameObject pooledEnemyProjectile = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab);
+        if (pooledEnemyProjectile != null)
+        {
+            pooledEnemyProjectile.SetActive(true);
+            pooledEnemyProjectile.transform.position = transform.position + offset;
+            pooledEnemyProjectile.transform.rotation = projectilePrefab.transform.rotation;
+
+            /*Rigidbody rb = pooledEnemyProjectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = Vector3.zero;
+                // use up vector since object is on its side
+                rb.AddForce(transform.up * 20.0f, .Impulse);
+            }*/
+            enemyAudio.PlayOneShot(enemyShoot, 0.3f);
+        }
     }
 
     void PlaySoundAndDestroy()

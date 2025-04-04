@@ -403,10 +403,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22a4eec2998262c498d799c6a0d4b65f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pooledObjects: []
+  pooledProjectile: []
+  pooledEnemyProjectile: []
   enemyObjects: []
   asteroidObjects: []
   objectToPool: {fileID: 8525027687207545206, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
+  enemyObjectToPool: {fileID: 2117737547867716151, guid: 84c78565a8fc0a64389be3f2f6baaab5, type: 3}
   enemyPool:
   - {fileID: 3125974578899591072, guid: eef5c22133cb62843a4e76203cf0bf5e, type: 3}
   - {fileID: 3744367646960292050, guid: dd09a7caace818041b0958a446a901ca, type: 3}
@@ -415,7 +417,8 @@ MonoBehaviour:
   - {fileID: 766536774983909133, guid: 0be7522c4959e2940b0c91493f2ea2fe, type: 3}
   - {fileID: 3303087443254855755, guid: ba2c3eb187bfdff4c8bd67d709c2846b, type: 3}
   - {fileID: 3376804430501518950, guid: 5705d3bcd743d224bb23bcbe23cb99b6, type: 3}
-  amountToPool: 10
+  amountToPoolPlayer: 10
+  amountToPoolEnemy: 20
   enemyAmountToPool: 5
   asteroidAmountToPool: 5
 --- !u!1001 &601597813
@@ -433,6 +436,10 @@ PrefabInstance:
     - target: {fileID: 1444638899229730, guid: 18ed84bba105fb0419e3b2b89496b375, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1444638899229730, guid: 18ed84bba105fb0419e3b2b89496b375, type: 3}
+      propertyPath: m_TagString
+      value: Shield
       objectReference: {fileID: 0}
     - target: {fileID: 4233494580616524, guid: 18ed84bba105fb0419e3b2b89496b375, type: 3}
       propertyPath: m_LocalScale.x

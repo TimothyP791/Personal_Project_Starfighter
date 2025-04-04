@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy Projectile") && !wasHit)
         {
             wasHit = true;
-            Destroy(collision.gameObject);
+            collision.gameObject.SetActive(false);
             playerAudio.PlayOneShot(hitSound, 0.8f);
             
             lives--;

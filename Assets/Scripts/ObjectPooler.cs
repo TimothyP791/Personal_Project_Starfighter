@@ -6,13 +6,16 @@ using UnityEngine;
 public class ObjectPooler : MonoBehaviour
 {
     public static ObjectPooler SharedInstance;
-    public List<GameObject> pooledObjects;
+    public List<GameObject> pooledProjectile;
+    public List<GameObject> pooledEnemyProjectile;
     public List<GameObject> enemyObjects;
     public List<GameObject> asteroidObjects;
     public GameObject objectToPool;
+    public GameObject enemyObjectToPool;
     public GameObject[] enemyPool;
     public GameObject[] asteroidPool;
-    public int amountToPool;
+    public int amountToPoolPlayer;
+    public int amountToPoolEnemy;
     public int enemyAmountToPool;
     public int asteroidAmountToPool;
 
@@ -26,13 +29,13 @@ public class ObjectPooler : MonoBehaviour
     void Start()
     {
         // Loop through list of pooled objects,deactivating them and adding them to the list 
-        pooledObjects = new List<GameObject>();
-        for (int i = 0; i < amountToPool; i++)
+        pooledProjectile = new List<GameObject>();
+        for (int i = 0; i < amountToPoolPlayer; i++)
         {
             GameObject obj = (GameObject)Instantiate(objectToPool);
             obj.SetActive(false);
-            pooledObjects.Add(obj);
-            obj.transform.SetParent(this.transform); // set as children of Spawn Manager
+            pooledProjectile.Add(obj);
+            obj.transform.SetParent(this.transform); // set as children of Game Manager
         }
         enemyObjects = new List<GameObject>();
         for (int i = 0; i < enemyAmountToPool; i++)
@@ -40,7 +43,7 @@ public class ObjectPooler : MonoBehaviour
             GameObject obj = (GameObject)Instantiate(enemyPool[Random.Range(0,enemyPool.Length)]);
             obj.SetActive(false);
             enemyObjects.Add(obj);
-            obj.transform.SetParent(this.transform); // set as children of Spawn Manager
+            obj.transform.SetParent(this.transform); // set as children of Game Manager
         }
         asteroidObjects = new List<GameObject>();
         for (int i = 0; i < asteroidAmountToPool; i++)
@@ -48,7 +51,15 @@ public class ObjectPooler : MonoBehaviour
             GameObject obj = (GameObject)Instantiate(asteroidPool[Random.Range(0, asteroidPool.Length)]);
             obj.SetActive(false);
             asteroidObjects.Add(obj);
-            obj.transform.SetParent(this.transform); // set as children of Spawn Manager
+            obj.transform.SetParent(this.transform); // set as children of Game Manager
+        }
+        pooledEnemyProjectile = new List<GameObject>();
+        for (int i = 0; i < amountToPoolEnemy; i++)
+        {
+            GameObject obj = (GameObject)Instantiate(enemyObjectToPool);
+            obj.SetActive(false);
+            pooledEnemyProjectile.Add(obj);
+            obj.transform.SetParent(this.transform); // set as children of Game Manager
         }
     }
 
@@ -56,13 +67,13 @@ public class ObjectPooler : MonoBehaviour
     {
         if (poolType.CompareTag("Projectile"))
         {
-            for (int i = 0; i < pooledObjects.Count; i++)
+            for (int i = 0; i < pooledProjectile.Count; i++)
             {
                 // For as many objects as are in the pooledObjects list
                 // if the pooled objects is NOT active, return that object 
-                if (!pooledObjects[i].activeInHierarchy)
+                if (!pooledProjectile[i].activeInHierarchy)
                 {
-                    return pooledObjects[i];
+                    return pooledProjectile[i];
                 }
             }
         }
@@ -86,6 +97,17 @@ public class ObjectPooler : MonoBehaviour
                 if (!asteroidObjects[i].activeInHierarchy)
                 {
                     return asteroidObjects[i];
+                }
+            }
+        }
+
+        if (poolType.CompareTag("Enemy Projectile"))
+        {
+            for (int i = 0; i < pooledEnemyProjectile.Count; i++)
+            {
+                if (!pooledEnemyProjectile[i].activeInHierarchy)
+                {
+                    return pooledEnemyProjectile[i];
                 }
             }
         }
