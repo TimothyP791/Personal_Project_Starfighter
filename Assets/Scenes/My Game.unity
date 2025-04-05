@@ -376,6 +376,7 @@ MonoBehaviour:
   spawnPowerups:
   - {fileID: 4180177935043573135, guid: e4fd66b6b979a16448fe13ed3e775dc6, type: 3}
   - {fileID: 6193167584489664141, guid: c80bd76095c69d744a8804bc8f63f074, type: 3}
+  - {fileID: 1790275961536664153, guid: 00a4b452eebf7614e9066430fbc884af, type: 3}
 --- !u!4 &393388950
 Transform:
   m_ObjectHideFlags: 0
@@ -534,6 +535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shield: {fileID: 601597814}
+  shieldOff: {fileID: 8300000, guid: 2206d7538a47ed44e82110a342f88580, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2451,6 +2453,10 @@ PrefabInstance:
       propertyPath: lifeUpSound
       value: 
       objectReference: {fileID: 8300000, guid: 3c770812785bc1449a6c75d444354fd2, type: 3}
+    - target: {fileID: 7581405490741488560, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
+      propertyPath: shieldPowerUp
+      value: 
+      objectReference: {fileID: 8300000, guid: df55e2185288b0c43b1618abeae7ca23, type: 3}
     - target: {fileID: 7581405490741488560, guid: 8dff001fc25ba974e8dabdab2f1effb8, type: 3}
       propertyPath: rapidFireSound
       value: 

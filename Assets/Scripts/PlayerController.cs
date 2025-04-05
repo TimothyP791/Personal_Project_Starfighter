@@ -12,14 +12,13 @@ public class PlayerController : MonoBehaviour
     public bool canMove = false;
     public GameObject projectilePrefab;
     public GameManager gameManager;
-    //TODO: Add shield power up 
-    //public ShieldBehaviour shieldBehaviourScript;
     public AudioClip hitSound;
     public AudioClip shootSound;
     public AudioClip deathSound;
     public AudioClip deathOther;
     public AudioClip lifeUpSound;
     public AudioClip rapidFireSound;
+    public AudioClip shieldPowerUp;
     public ParticleSystem explosionParticle;
 
     [SerializeField] private Vector3 offset = new Vector3(0.07f, -0.32f, 1.37f);
@@ -34,11 +33,13 @@ public class PlayerController : MonoBehaviour
     private bool wasHit = false;
     private Rigidbody playerRb;
     private AudioSource playerAudio;
+    private ShieldBehaviour shieldBehaviourScript;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        shieldBehaviourScript = GameObject.Find("Shield").GetComponent<ShieldBehaviour>();
         playerAudio = GetComponent<AudioSource>();
         playerRb = GetComponent<Rigidbody>();
     }
@@ -130,6 +131,12 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(RapidFireCountdownRoutine());
         }
         //Use System04 sound for shield power up if added
+        if (other.gameObject.CompareTag("Shield Up"))
+        {
+            shieldBehaviourScript.shield.SetActive(true);
+            Destroy(other.gameObject);
+            PlaySoundAndDestroy(shieldPowerUp, null);
+        }
     }
 
     void MovePlayer()

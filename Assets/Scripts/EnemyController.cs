@@ -6,17 +6,22 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
 
-    private Vector3 offset = new Vector3(-0.030f, -0.32f, -1.29f);
-    private float frontBound = 60.0f;
-    private float backBound = -10.0f;
-    public GameObject projectilePrefab;
-    private GameManager gameManager;
-    private bool wasHit = false;
-    [SerializeField] private int pointValue = 10;
-    private AudioSource enemyAudio;
+    // Public variables
     public AudioClip enemyShoot;
     public AudioClip enemyDeath;
     public ParticleSystem explosionParticle;
+    public GameObject projectilePrefab;
+
+    [SerializeField] private int pointValue = 10;
+
+    // Private variables
+    private Vector3 offset = new Vector3(-0.030f, -0.32f, -1.29f);
+    private float frontBound = 60.0f;
+    private float backBound = -10.0f;
+    private GameManager gameManager;
+    private bool wasHit = false;
+    private AudioSource enemyAudio;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -38,21 +43,12 @@ public class EnemyController : MonoBehaviour
     // Controls enemy fire functionality
     void fireEnemyProjectile()
     {
-        //TODO: Add object pooling for enemy projectiles
         GameObject pooledEnemyProjectile = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab);
         if (pooledEnemyProjectile != null)
         {
             pooledEnemyProjectile.SetActive(true);
             pooledEnemyProjectile.transform.position = transform.position + offset;
             pooledEnemyProjectile.transform.rotation = projectilePrefab.transform.rotation;
-
-            /*Rigidbody rb = pooledEnemyProjectile.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.velocity = Vector3.zero;
-                // use up vector since object is on its side
-                rb.AddForce(transform.up * 20.0f, .Impulse);
-            }*/
             enemyAudio.PlayOneShot(enemyShoot, 0.3f);
         }
     }
@@ -107,7 +103,6 @@ public class EnemyController : MonoBehaviour
             StartCoroutine(ResetHitFlag());
         }
     }
-    //TODO: add condition for shield collision to play a sound
 
     IEnumerator CancelFireOnDestruction()
     {

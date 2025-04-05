@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ObjectPooler : MonoBehaviour
 {
+    // Public Variables
     public static ObjectPooler SharedInstance;
     public List<GameObject> pooledProjectile;
     public List<GameObject> pooledEnemyProjectile;
@@ -19,6 +20,7 @@ public class ObjectPooler : MonoBehaviour
     public int enemyAmountToPool;
     public int asteroidAmountToPool;
 
+    // Private Variables
 
     void Awake()
     {

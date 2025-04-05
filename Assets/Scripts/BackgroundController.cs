@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class BackgroundController : MonoBehaviour
 {
+    // Public variables
     public float speed;
+
+    // Private variables
     private int startPoz = 100;
 
     // Update is called once per frame

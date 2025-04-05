@@ -8,7 +8,8 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-   public TextMeshProUGUI scoreText;
+    //Public variables
+    public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI gameOverText;
     private int score = 0;
@@ -23,8 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject enemyProjectilePrefab;
     public GameObject[] spawnPowerups;
 
-
-    
+    //Private variables
     private float horizontalBound = 11.0f;
     private float topBound = 5.0f;
     private float bottomBound = -2.87f;
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
         {
             enemyControllerScript = pooledEnemy.GetComponent<EnemyController>();
             pooledEnemy.SetActive(true); // activate it
-            //Call Starte repeating when object is activated so the cancel on destruction in enemyController is overwritten when object is pooled again
+            //Call Start repeating when object is activated so the cancel on destruction in enemyController is overwritten when object is pooled again
             enemyControllerScript.StartRepeating();
             pooledEnemy.transform.position = new Vector3(Random.Range(-horizontalBound, horizontalBound), Random.Range(bottomBound, topBound), 55);
         }

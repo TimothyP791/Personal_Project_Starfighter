@@ -26,7 +26,10 @@ public class MoveForward : MonoBehaviour
         {
             transform.position += transform.up * Time.deltaTime * speed;
         }
-        if (gameObject.CompareTag("Asteroid") || gameObject.CompareTag("Rapid Fire") || gameObject.CompareTag("Life Up"))
+        if (gameObject.CompareTag("Asteroid") || 
+            gameObject.CompareTag("Rapid Fire") || 
+            gameObject.CompareTag("Life Up") || 
+            gameObject.CompareTag("Shield Up"))
         {
             //Keeps movement in the same forward direction
             transform.position += Vector3.back * Time.deltaTime * speed;

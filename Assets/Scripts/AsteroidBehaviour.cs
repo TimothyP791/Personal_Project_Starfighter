@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class AsteroidBehaviour : MonoBehaviour
 {
-    private GameManager gameManager;
-    [SerializeField] private int pointValue = 5;
+    // Public variables
     public AudioClip explosion;
     public ParticleSystem explosionParticle;
+
+    [SerializeField] private int pointValue = 5;
+    
+    //Private variables
+    private GameManager gameManager;
     private bool isDestroyed = false;
     // Start is called before the first frame update
     void Start()
