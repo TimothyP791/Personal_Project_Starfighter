@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+//using UnityEngine.UIElements;
 
 public class EnemyController : MonoBehaviour
 {
@@ -11,12 +11,13 @@ public class EnemyController : MonoBehaviour
     private float backBound = -10.0f;
     public GameObject projectilePrefab;
     private GameManager gameManager;
+    private bool wasHit = false;
     [SerializeField] private int pointValue = 10;
     private AudioSource enemyAudio;
     public AudioClip enemyShoot;
     public AudioClip enemyDeath;
     public ParticleSystem explosionParticle;
-    private bool isDestroyed = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -77,26 +78,33 @@ public class EnemyController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Projectile"))
+        if (collision.gameObject.CompareTag("Projectile") && !wasHit)
         {
-            if (!isDestroyed)
-            {
-                isDestroyed = true;
-                PlaySoundAndDestroy();
-                collision.gameObject.SetActive(false);
-                gameManager.UpdateScore(pointValue);
-                StartCoroutine("CancelFireOnDestruction");
-            }
+            wasHit = true;
+            PlaySoundAndDestroy();
+            collision.gameObject.SetActive(false);
+            gameManager.UpdateScore(pointValue);
+            StartCoroutine("CancelFireOnDestruction");
+            StartCoroutine(ResetHitFlag());
         }
         //TODO: Figure out why projectile glitch still occurs when colliding with player
-        if (collision.gameObject.CompareTag("Player"))
+        else if (collision.gameObject.CompareTag("Player") && !wasHit)
         {
-            if (!isDestroyed)
-            {
-                isDestroyed = true;
-                PlaySoundAndDestroy();
-                StartCoroutine("CancelFireOnDestruction");
-            }
+            wasHit = true;
+            PlaySoundAndDestroy();
+            StartCoroutine("CancelFireOnDestruction"); 
+            StartCoroutine(ResetHitFlag());
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Shield") && !wasHit)
+        {
+            wasHit = true;
+            PlaySoundAndDestroy();
+            StartCoroutine("CancelFireOnDestruction");
+            StartCoroutine(ResetHitFlag());
         }
     }
     //TODO: add condition for shield collision to play a sound
@@ -112,5 +120,11 @@ public class EnemyController : MonoBehaviour
     public void StartRepeating()
     {
         InvokeRepeating("fireEnemyProjectile", 0.0f, 1.5f); 
+    }
+
+    IEnumerator ResetHitFlag()
+    {
+        yield return new WaitForEndOfFrame();
+        wasHit = false;
     }
 }

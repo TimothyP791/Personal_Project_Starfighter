@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
     private float bottomBound = -2.87f;
     private bool canFire = true;
     private bool wasHit = false;
-    //private Vector3 currentPosition;
     private Rigidbody playerRb;
     private AudioSource playerAudio;
 
