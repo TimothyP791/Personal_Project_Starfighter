@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public Button StartButton;
     public GameObject titleScreen;
     public GameObject playerMetrics;
+    public GameObject bossPrefab;
     public GameObject enemyProjectilePrefab;
     public GameObject[] spawnPowerups;
 
@@ -34,7 +35,8 @@ public class GameManager : MonoBehaviour
     private float enemySpawnRate = 2.5f;
     private float powerupSpawnRate = 20.0f;
     private float hazardSpawnRate = 2.5f;
-    
+    private bool bossExist = false;
+
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -52,6 +54,14 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("SpawnRandomEnemy", enemyStartDelay, enemySpawnRate);
         InvokeRepeating("SpawnRandomHazard", hazardStartDelay, hazardSpawnRate);
         InvokeRepeating("SpawnRandomPowerup", powerupStartDelay, powerupSpawnRate);
+    }
+
+    public void Update()
+    {
+        if (score >= 5 && !bossExist)
+        {
+            SpawnBossWave();
+        }
     }
 
     public void GameOver()
@@ -103,5 +113,13 @@ public class GameManager : MonoBehaviour
             enemyControllerScript.StartRepeating();
             pooledEnemy.transform.position = new Vector3(Random.Range(-horizontalBound, horizontalBound), Random.Range(bottomBound, topBound), 55);
         }
+    }
+
+    void SpawnBossWave()
+    {
+        CancelInvoke("SpawnRandomEnemy");
+        CancelInvoke("SpawnRandomHazard");
+        Instantiate(bossPrefab, new Vector3(0, 0, 25), bossPrefab.transform.rotation);
+        bossExist = true;
     }
 }

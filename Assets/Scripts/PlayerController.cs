@@ -206,7 +206,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    void FireProjectile()
+    void FireProjectile() // Implement Inheritance with virtual functions to showcase skills
     {
         if (Input.GetKeyDown(KeyCode.Space) && canFire)
         {

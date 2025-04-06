@@ -372,6 +372,7 @@ MonoBehaviour:
   StartButton: {fileID: 1531002901}
   titleScreen: {fileID: 100023296}
   playerMetrics: {fileID: 237363674}
+  bossPrefab: {fileID: 938584457275551011, guid: 4224776a98eb03b4e90bdd35cf4f34de, type: 3}
   enemyProjectilePrefab: {fileID: 2117737547867716151, guid: 84c78565a8fc0a64389be3f2f6baaab5, type: 3}
   spawnPowerups:
   - {fileID: 4180177935043573135, guid: e4fd66b6b979a16448fe13ed3e775dc6, type: 3}
