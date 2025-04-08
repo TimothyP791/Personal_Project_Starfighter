@@ -39,7 +39,8 @@ public class MoveForward : MonoBehaviour
 
         }
         //References objects that are not powerups
-        if ((transform.position.z > frontBound || transform.position.z < backBound) && (gameObject.CompareTag("Projectile") || gameObject.CompareTag("Enemy Projectile")))
+        if ((transform.position.z > frontBound || transform.position.z < backBound) && 
+            (gameObject.CompareTag("Projectile") || gameObject.CompareTag("Enemy Projectile") || gameObject.CompareTag("Asteroid")))
         {
             //changed from destroy for object pooling Enemies are handled in enemy controller for Invoke canceling reasons
             gameObject.SetActive(false);

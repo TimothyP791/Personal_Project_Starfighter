@@ -22,6 +22,10 @@ public class BossController : MonoBehaviour
     private Vector3 offset2 = new Vector3(1.16f, 0.33f, -2.81f);
     private Vector3 offset3 = new Vector3(-1.13f, -0.33f, -2.81f);
     private Vector3 direction;
+    //TODO: Get bounds from game Manager functions instead.
+    private float horizontalBound = 50.1f;
+    private float topBound = 16.0f;
+    private float bottomBound = -21.0f;
     [SerializeField] private int lives = 10;
     private GameManager gameManager;
     private bool wasHit = false;
@@ -43,29 +47,59 @@ public class BossController : MonoBehaviour
     void Update()
     {
         FollowPlayer();
+        RestrictBoss();
     }
     // Controls enemy fire functionality
     void fireEnemyProjectile() //make virtual function
     {
         GameObject pooledEnemyProjectile = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab);
-        GameObject pooledEnemyProjectile2 = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab2);
-        GameObject pooledEnemyProjectile3 = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab3);
-        if (pooledEnemyProjectile != null)// && pooledEnemyProjectile2 && pooledEnemyProjectile3 != null)
+
+        if (pooledEnemyProjectile != null)
         {
-            //Set the pooled projectile to active
+            // Set the pooled projectile to active
             pooledEnemyProjectile.SetActive(true);
-            pooledEnemyProjectile2.SetActive(true);
-            pooledEnemyProjectile3.SetActive(true);
             // Set the position and rotation of the projectile
             pooledEnemyProjectile.transform.position = transform.position + offset1;
             pooledEnemyProjectile.transform.rotation = projectilePrefab.transform.rotation;
-            
-            pooledEnemyProjectile2.transform.position = transform.position + offset2;
+            bossAudio.PlayOneShot(bossShoot, 0.3f);
+        }
+        else
+        {
+            Debug.Log("No pooled object available");
+            return;
+        }
+        
+        GameObject pooledEnemyProjectile2 = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab2);
+
+        if (pooledEnemyProjectile2 != null)
+        {
+            // Set the pooled projectile to active
+            pooledEnemyProjectile2.SetActive(true);
+            // Set the position and rotation of the projectile
+            pooledEnemyProjectile2.transform.position = transform.position + offset1;
             pooledEnemyProjectile2.transform.rotation = projectilePrefab.transform.rotation;
-            
-            pooledEnemyProjectile3.transform.position = transform.position + offset3;
+            bossAudio.PlayOneShot(bossShoot, 0.3f);
+        }
+        else
+        {
+            Debug.Log("No pooled object available");
+            return;
+        }
+        GameObject pooledEnemyProjectile3 = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab3);
+
+        if (pooledEnemyProjectile3 != null)
+        {
+            // Set the pooled projectile to active
+            pooledEnemyProjectile3.SetActive(true);
+            // Set the position and rotation of the projectile
+            pooledEnemyProjectile3.transform.position = transform.position + offset1;
             pooledEnemyProjectile3.transform.rotation = projectilePrefab.transform.rotation;
             bossAudio.PlayOneShot(bossShoot, 0.3f);
+        }
+        else
+        {
+            Debug.Log("No pooled object available");
+            return;
         }
     }
 
@@ -111,12 +145,37 @@ public class BossController : MonoBehaviour
             {
                 PlaySoundAndDestroy();
                 gameManager.UpdateScore(pointValue);
+                gameManager.StartRepeating();
                 StartCoroutine("CancelFireOnDestruction");
                 //Restart enemies and asteroid spawning
             }
         }
     }
 
+    void RestrictBoss()
+    {
+        //Ensure the player can't leave the camera view
+        if (transform.position.x < -horizontalBound)
+        {
+            transform.position = new Vector3(-horizontalBound, transform.position.y, transform.position.z);
+            bossRb.velocity = new Vector3(0, bossRb.velocity.y, bossRb.velocity.z);
+        }
+        if (transform.position.x > horizontalBound)
+        {
+            transform.position = new Vector3(horizontalBound, transform.position.y, transform.position.z);
+            bossRb.velocity = new Vector3(0, bossRb.velocity.y, bossRb.velocity.z);
+        }
+        if (transform.position.y > topBound)
+        {
+            transform.position = new Vector3(transform.position.x, topBound, transform.position.z);
+            bossRb.velocity = new Vector3(bossRb.velocity.x, 0, bossRb.velocity.z);
+        }
+        if (transform.position.y < bottomBound)
+        {
+            transform.position = new Vector3(transform.position.x, bottomBound, transform.position.z);
+            bossRb.velocity = new Vector3(bossRb.velocity.x, 0, bossRb.velocity.z);
+        }
+    }
     IEnumerator CancelFireOnDestruction()
     {
        yield return new WaitForFixedUpdate();

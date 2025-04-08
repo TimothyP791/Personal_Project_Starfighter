@@ -51,8 +51,7 @@ public class GameManager : MonoBehaviour
         UpdateLives(playerControllerScript.lives);
         playerControllerScript.canMove = true;
         playerMetrics.gameObject.SetActive(true);
-        InvokeRepeating("SpawnRandomEnemy", enemyStartDelay, enemySpawnRate);
-        InvokeRepeating("SpawnRandomHazard", hazardStartDelay, hazardSpawnRate);
+        StartRepeating();
         InvokeRepeating("SpawnRandomPowerup", powerupStartDelay, powerupSpawnRate);
     }
 
@@ -122,4 +121,12 @@ public class GameManager : MonoBehaviour
         Instantiate(bossPrefab, new Vector3(0, 0, 25), bossPrefab.transform.rotation);
         bossExist = true;
     }
+
+    public void StartRepeating()
+    {
+        //Didn't add powerup to this since its never cancelled
+        InvokeRepeating("SpawnRandomEnemy", enemyStartDelay, enemySpawnRate);
+        InvokeRepeating("SpawnRandomHazard", hazardStartDelay, hazardSpawnRate);
+    }
+
 }
