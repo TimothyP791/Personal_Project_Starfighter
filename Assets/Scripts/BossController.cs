@@ -22,7 +22,7 @@ public class BossController : MonoBehaviour
     private Vector3 offset2 = new Vector3(1.16f, 0.33f, -2.81f);
     private Vector3 offset3 = new Vector3(-1.13f, -0.33f, -2.81f);
     private Vector3 direction;
-    private int lives = 10;
+    [SerializeField] private int lives = 10;
     private GameManager gameManager;
     private bool wasHit = false;
     private AudioSource bossAudio;
@@ -50,7 +50,7 @@ public class BossController : MonoBehaviour
         GameObject pooledEnemyProjectile = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab);
         GameObject pooledEnemyProjectile2 = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab2);
         GameObject pooledEnemyProjectile3 = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab3);
-        if (pooledEnemyProjectile  && pooledEnemyProjectile2 && pooledEnemyProjectile3 != null)
+        if (pooledEnemyProjectile != null)// && pooledEnemyProjectile2 && pooledEnemyProjectile3 != null)
         {
             //Set the pooled projectile to active
             pooledEnemyProjectile.SetActive(true);
@@ -75,7 +75,7 @@ public class BossController : MonoBehaviour
         {
             //Have the boss follow the player on X and Y axis
             direction = new Vector3((player.transform.position.x - transform.position.x), (player.transform.position.y - transform.position.y), 0f);
-            //direction.Normalize();
+            direction.Normalize();
             bossRb.AddForce(direction * Time.deltaTime * speed, ForceMode.Impulse); // Adjust speed as needed
         }
     }
