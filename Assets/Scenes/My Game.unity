@@ -365,6 +365,8 @@ MonoBehaviour:
   livesText: {fileID: 1632357522}
   gameOverText: {fileID: 1008707067}
   isGameActive: 0
+  bossExist: 0
+  bossDestroyed: 1
   playerControllerScript: {fileID: 2081521746}
   objectPoolerScript: {fileID: 393388951}
   enemyControllerScript: {fileID: 0}

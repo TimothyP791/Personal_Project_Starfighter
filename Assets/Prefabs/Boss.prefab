@@ -131,8 +131,8 @@ MonoBehaviour:
   projectilePrefab2: {fileID: 2117737547867716151, guid: 84c78565a8fc0a64389be3f2f6baaab5, type: 3}
   projectilePrefab3: {fileID: 2117737547867716151, guid: 84c78565a8fc0a64389be3f2f6baaab5, type: 3}
   speed: 5
-  pointValue: 50
-  lives: 10
+  pointValue: 35
+  lives: 5
 --- !u!54 &2291627288740931106
 Rigidbody:
   m_ObjectHideFlags: 0

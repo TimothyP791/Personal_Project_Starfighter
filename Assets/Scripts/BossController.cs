@@ -15,7 +15,7 @@ public class BossController : MonoBehaviour
     public GameObject projectilePrefab3;
     public float speed = 5.0f; // Speed of the boss movement
 
-    [SerializeField] private int pointValue = 50;
+    [SerializeField] private int pointValue = 35;
 
     // Private variables
     private Vector3 offset1 = new Vector3(0f, 0.14f, -3.22f);
@@ -146,6 +146,8 @@ public class BossController : MonoBehaviour
                 PlaySoundAndDestroy();
                 gameManager.UpdateScore(pointValue);
                 gameManager.StartRepeating();
+                gameManager.bossExist = false;
+                gameManager.bossDestroyed = true;
                 StartCoroutine("CancelFireOnDestruction");
                 //Restart enemies and asteroid spawning
             }

@@ -162,9 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9e2b968d23a0644d9603a1f95651472, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 5
   explosion: {fileID: 8300000, guid: 65d61f9b9070ac34a99c2acfa192ce7f, type: 3}
   explosionParticle: {fileID: 19800004, guid: 892b7546c4450e04ebe1c0fe562e15be, type: 3}
+  pointValue: 5
 --- !u!1001 &2350092336572462127
 PrefabInstance:
   m_ObjectHideFlags: 0

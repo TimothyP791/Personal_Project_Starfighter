@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     private int score = 0;
     public bool isGameActive;
+    public bool bossExist = false;
+    public bool bossDestroyed = true;
     public PlayerController playerControllerScript;
     public ObjectPooler objectPoolerScript;
     public EnemyController enemyControllerScript;
@@ -35,7 +37,8 @@ public class GameManager : MonoBehaviour
     private float enemySpawnRate = 2.5f;
     private float powerupSpawnRate = 20.0f;
     private float hazardSpawnRate = 2.5f;
-    private bool bossExist = false;
+    private int nextBossThreshold = 50;
+
 
     public void RestartGame()
     {
@@ -57,10 +60,15 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        if (score >= 5 && !bossExist)
+        // Use % to spawn wave periodically.
+        if (score >= nextBossThreshold && bossDestroyed && !bossExist)
         {
             SpawnBossWave();
+            bossExist = true;
+            bossDestroyed = false;
+            nextBossThreshold += 50;
         }
+        
     }
 
     public void GameOver()
