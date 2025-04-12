@@ -19,7 +19,7 @@ public class BossController : MonoBehaviour
 
     // Private variables
     private Vector3 offset1 = new Vector3(0f, 0.14f, -3.22f);
-    private Vector3 offset2 = new Vector3(1.16f, 0.33f, -2.81f);
+    private Vector3 offset2 = new Vector3(1.16f, -0.33f, -2.81f);
     private Vector3 offset3 = new Vector3(-1.13f, -0.33f, -2.81f);
     private Vector3 direction;
     //TODO: Get bounds from game Manager functions instead.
@@ -66,7 +66,6 @@ public class BossController : MonoBehaviour
         else
         {
             Debug.Log("No pooled object available");
-            return;
         }
         
         GameObject pooledEnemyProjectile2 = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab2);
@@ -76,14 +75,13 @@ public class BossController : MonoBehaviour
             // Set the pooled projectile to active
             pooledEnemyProjectile2.SetActive(true);
             // Set the position and rotation of the projectile
-            pooledEnemyProjectile2.transform.position = transform.position + offset1;
+            pooledEnemyProjectile2.transform.position = transform.position + offset2;
             pooledEnemyProjectile2.transform.rotation = projectilePrefab.transform.rotation;
             bossAudio.PlayOneShot(bossShoot, 0.3f);
         }
         else
         {
             Debug.Log("No pooled object available");
-            return;
         }
         GameObject pooledEnemyProjectile3 = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab3);
 
@@ -92,17 +90,17 @@ public class BossController : MonoBehaviour
             // Set the pooled projectile to active
             pooledEnemyProjectile3.SetActive(true);
             // Set the position and rotation of the projectile
-            pooledEnemyProjectile3.transform.position = transform.position + offset1;
+            pooledEnemyProjectile3.transform.position = transform.position + offset3;
             pooledEnemyProjectile3.transform.rotation = projectilePrefab.transform.rotation;
             bossAudio.PlayOneShot(bossShoot, 0.3f);
         }
         else
         {
             Debug.Log("No pooled object available");
-            return;
         }
     }
 
+    // TODO: Update this to be more fluid
     void FollowPlayer()
     {
         if (player != null)
@@ -149,7 +147,6 @@ public class BossController : MonoBehaviour
                 gameManager.bossExist = false;
                 gameManager.bossDestroyed = true;
                 StartCoroutine("CancelFireOnDestruction");
-                //Restart enemies and asteroid spawning
             }
         }
     }

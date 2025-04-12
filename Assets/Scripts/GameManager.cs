@@ -60,9 +60,10 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
-        // Use % to spawn wave periodically.
+        
         if (score >= nextBossThreshold && bossDestroyed && !bossExist)
         {
+            //bossDestroyed is set back to true upon boss destruction
             SpawnBossWave();
             bossExist = true;
             bossDestroyed = false;
