@@ -98,16 +98,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6621bbccb15f34345a41d30d344b8be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  moveForce: 300
+  turnSpeed: 50
   fireRate: 0.5
-  offset: {x: 0.07, y: -0.32, z: 1.37}
-  projectilePrefab: {fileID: 8525027687207545206, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
   lives: 3
+  canMove: 0
+  projectilePrefab: {fileID: 8525027687207545206, guid: a507370dfdba7b34da8acd58ebc08de7, type: 3}
   gameManager: {fileID: 0}
+  hitSound: {fileID: 0}
   shootSound: {fileID: 0}
   deathSound: {fileID: 0}
   deathOther: {fileID: 0}
+  lifeUpSound: {fileID: 0}
+  rapidFireSound: {fileID: 0}
+  shieldPowerUp: {fileID: 0}
   explosionParticle: {fileID: 0}
+  offset: {x: 0.07, y: -0.32, z: 1.37}
 --- !u!54 &5563177083516510549
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -117,7 +123,7 @@ Rigidbody:
   m_GameObject: {fileID: 4104379447680539535}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 0.5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
