@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour
     private float frontBound = 60.0f;
     private float backBound = -10.0f;
     private GameManager gameManager;
-    private bool wasHit = false;
+    public bool wasHit = false;
     private AudioSource enemyAudio;
     
 
@@ -74,9 +74,9 @@ public class EnemyController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Projectile") && !wasHit)
+        if (collision.gameObject.CompareTag("Projectile"))
         {
-            wasHit = true;
+            //wasHit = true;
             PlaySoundAndDestroy();
             collision.gameObject.SetActive(false);
             gameManager.UpdateScore(pointValue);
@@ -84,9 +84,9 @@ public class EnemyController : MonoBehaviour
             StartCoroutine(ResetHitFlag());
         }
         //TODO: Figure out why projectile glitch still occurs when colliding with player
-        else if (collision.gameObject.CompareTag("Player") && !wasHit)
+        else if (collision.gameObject.CompareTag("Player"))
         {
-            wasHit = true;
+            //wasHit = true;
             PlaySoundAndDestroy();
             StartCoroutine("CancelFireOnDestruction"); 
             StartCoroutine(ResetHitFlag());

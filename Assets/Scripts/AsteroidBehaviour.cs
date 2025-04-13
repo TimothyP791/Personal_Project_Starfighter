@@ -12,7 +12,6 @@ public class AsteroidBehaviour : MonoBehaviour
     
     //Private variables
     private GameManager gameManager;
-    private bool isDestroyed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,14 +42,11 @@ public class AsteroidBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("Projectile") || collision.gameObject.CompareTag("Enemy Projectile"))
         {
 
-            if (!isDestroyed)
-            {
-                isDestroyed = true;
                 PlaySoundAndDestroy();
                 collision.gameObject.SetActive(false);
                 gameManager.UpdateScore(pointValue);
                 StartCoroutine(DeactivateAfterPhysicsFrame());
-            }
+            
         }
     }
     // Use wait for fixed update to deactivate the asteroid after the physics frame so that Unity can reconcile with the physics engine
