@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour
     public ObjectPooler objectPoolerScript;
     public EnemyController enemyControllerScript;
     public Button restartButton;
-    public Button StartButton;
+    public Button EasyButton;
+    public Button MediumButton;
+    public Button HardButton;
     public GameObject titleScreen;
     public GameObject playerMetrics;
     public GameObject bossPrefab;
@@ -34,10 +36,10 @@ public class GameManager : MonoBehaviour
     private float enemyStartDelay = 1.0f;
     private float powerupStartDelay = 10.0f;
     private float hazardStartDelay = 1.5f;
-    private float enemySpawnRate = 2.5f;
+    private float enemySpawnRate = 3.0f;
     private float powerupSpawnRate = 20.0f;
-    private float hazardSpawnRate = 2.5f;
-    private int nextBossThreshold = 50;
+    private float hazardSpawnRate = 3.0f;
+    private int nextBossThreshold = 100;
 
 
     public void RestartGame()
@@ -45,8 +47,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void StartGame()
+    public void StartGame(int difficulty)
     {
+        enemySpawnRate /= difficulty;
+        hazardSpawnRate /= difficulty;
         isGameActive = true;
         titleScreen.gameObject.SetActive(false);
         playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -67,7 +71,7 @@ public class GameManager : MonoBehaviour
             SpawnBossWave();
             bossExist = true;
             bossDestroyed = false;
-            nextBossThreshold += 50;
+            nextBossThreshold += nextBossThreshold;
         }
         
     }
