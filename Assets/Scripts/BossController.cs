@@ -3,39 +3,35 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BossController : MonoBehaviour
+public class BossController : EnemyController
 {
     // Public variables
     public AudioClip bossShoot;
-    public AudioClip bossDeath;
     public AudioClip bossHit;
-    public ParticleSystem explosionParticle;
-    public GameObject projectilePrefab;
-    public GameObject projectilePrefab2;
+    public GameObject projectilePrefab2; // Need 2 and 3 to differentiate from inherited projectilePrefab to shoot 3 projectiles
     public GameObject projectilePrefab3;
     public float speed = 5.0f; // Speed of the boss movement
 
-    [SerializeField] private int pointValue = 35;
+    [SerializeField] private int pointValueBoss = 35;
 
     // Private variables
     private Vector3 offset1 = new Vector3(0f, 0.14f, -3.22f);
     private Vector3 offset2 = new Vector3(1.16f, -0.33f, -2.81f);
     private Vector3 offset3 = new Vector3(-1.13f, -0.33f, -2.81f);
     private Vector3 direction;
-    //TODO: Get bounds from game Manager functions instead.
     private float horizontalBound = 50.1f;
     private float topBound = 16.0f;
     private float bottomBound = -21.0f;
     [SerializeField] private int lives = 10;
     private GameManager gameManager;
-    private bool wasHit = false;
+    //private bool wasHit = false;
     private AudioSource bossAudio;
     private GameObject player;
     private Rigidbody bossRb;
 
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         player = GameObject.Find("Player");
@@ -44,13 +40,13 @@ public class BossController : MonoBehaviour
         StartRepeating();
     }
 
-    void Update()
+    public override void Update()
     {
         FollowPlayer();
         RestrictBoss();
     }
     // Controls enemy fire functionality
-    void fireEnemyProjectile() //make virtual function
+    public override void fireEnemyProjectile() //make virtual function
     {
         GameObject pooledEnemyProjectile = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab);
 
@@ -100,7 +96,6 @@ public class BossController : MonoBehaviour
         }
     }
 
-    // TODO: Update this to be more fluid
     void FollowPlayer()
     {
         if (player != null)
@@ -111,26 +106,8 @@ public class BossController : MonoBehaviour
             bossRb.AddForce(direction * Time.deltaTime * speed, ForceMode.Impulse); // Adjust speed as needed
         }
     }
-        void PlaySoundAndDestroy()
-    {
-        GameObject tempAudio = new GameObject("TempAudioSource"); // Create a temporary GameObject
-        AudioSource audioSource = tempAudio.AddComponent<AudioSource>(); // Add an AudioSource
-        audioSource.clip = bossDeath;
-        audioSource.volume = 30000.0f; // Set volume higher than 1.0 (adjust as needed)
-        audioSource.spatialBlend = 0f; // Ensure it's a 2D sound if needed
-        audioSource.Play();
 
-        Destroy(tempAudio, bossDeath.length); // Destroy after the sound finishes
-
-        if (explosionParticle != null)
-        {
-            ParticleSystem explosionEffect = Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation); 
-            explosionEffect.Play();
-            Destroy(explosionEffect.gameObject, explosionEffect.main.duration);
-        }
-    }
-
-    void OnCollisionEnter(Collision collision)
+    public override void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Projectile") && !wasHit)
         {
@@ -142,8 +119,8 @@ public class BossController : MonoBehaviour
             if (lives <= 0)
             {
                 PlaySoundAndDestroy();
-                gameManager.UpdateScore(pointValue);
-                gameManager.StartRepeating();
+                gameManager.UpdateScore(pointValueBoss);
+                gameManager.StartSpawning();
                 gameManager.bossExist = false;
                 gameManager.bossDestroyed = true;
                 StartCoroutine("CancelFireOnDestruction");
@@ -174,22 +151,5 @@ public class BossController : MonoBehaviour
             transform.position = new Vector3(transform.position.x, bottomBound, transform.position.z);
             bossRb.velocity = new Vector3(bossRb.velocity.x, 0, bossRb.velocity.z);
         }
-    }
-    IEnumerator CancelFireOnDestruction()
-    {
-       yield return new WaitForFixedUpdate();
-       CancelInvoke("fireEnemyProjectile");
-       gameObject.SetActive(false);
-    }
-
-    public void StartRepeating()
-    {
-        InvokeRepeating("fireEnemyProjectile", 0.0f, 1.5f);
-    }
-
-    IEnumerator ResetHitFlag()
-    {
-        yield return new WaitForEndOfFrame();
-        wasHit = false;
     }
 }

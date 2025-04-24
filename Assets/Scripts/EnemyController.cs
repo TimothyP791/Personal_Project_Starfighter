@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.UIElements;
 
 public class EnemyController : MonoBehaviour
 {
@@ -11,6 +10,7 @@ public class EnemyController : MonoBehaviour
     public AudioClip enemyDeath;
     public ParticleSystem explosionParticle;
     public GameObject projectilePrefab;
+    public bool wasHit = false;
 
     [SerializeField] private int pointValue = 10;
 
@@ -19,18 +19,17 @@ public class EnemyController : MonoBehaviour
     private float frontBound = 60.0f;
     private float backBound = -10.0f;
     private GameManager gameManager;
-    private bool wasHit = false;
     private AudioSource enemyAudio;
     
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         enemyAudio = GetComponent<AudioSource>();
     }
 
-     void Update()
+     public virtual void Update()
     {
         if ((transform.position.z > frontBound || transform.position.z < backBound))
         {
@@ -41,7 +40,7 @@ public class EnemyController : MonoBehaviour
         }
     }
     // Controls enemy fire functionality
-    void fireEnemyProjectile()
+    public virtual void fireEnemyProjectile()
     {
         GameObject pooledEnemyProjectile = ObjectPooler.SharedInstance.GetPooledObject(projectilePrefab);
         if (pooledEnemyProjectile != null)
@@ -53,7 +52,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void PlaySoundAndDestroy()
+    public void PlaySoundAndDestroy()
     {
         GameObject tempAudio = new GameObject("TempAudioSource"); // Create a temporary GameObject
         AudioSource audioSource = tempAudio.AddComponent<AudioSource>(); // Add an AudioSource
@@ -72,7 +71,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    public virtual void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Projectile"))
         {
@@ -104,7 +103,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    IEnumerator CancelFireOnDestruction()
+    public IEnumerator CancelFireOnDestruction()
     {
         yield return new WaitForFixedUpdate();
         CancelInvoke("fireEnemyProjectile");
@@ -117,7 +116,7 @@ public class EnemyController : MonoBehaviour
         InvokeRepeating("fireEnemyProjectile", 0.0f, 1.5f); 
     }
 
-    IEnumerator ResetHitFlag()
+    public IEnumerator ResetHitFlag()
     {
         yield return new WaitForEndOfFrame();
         wasHit = false;

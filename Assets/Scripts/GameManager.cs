@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI gameOverText;
-    private int score = 0;
     public bool isGameActive;
     public bool bossExist = false;
     public bool bossDestroyed = true;
@@ -30,6 +29,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] spawnPowerups;
 
     //Private variables
+    private int score = 0;
     private float horizontalBound = 11.0f;
     private float topBound = 5.0f;
     private float bottomBound = -2.87f;
@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame(int difficulty)
     {
+        //Easy takes in 1, Medium takes in 2, Hard takes in 3 inside the button onClick event in the inspector
         enemySpawnRate /= difficulty;
         hazardSpawnRate /= difficulty;
         isGameActive = true;
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
         UpdateLives(playerControllerScript.lives);
         playerControllerScript.canMove = true;
         playerMetrics.gameObject.SetActive(true);
-        StartRepeating();
+        StartSpawning();
         InvokeRepeating("SpawnRandomPowerup", powerupStartDelay, powerupSpawnRate);
     }
 
@@ -135,7 +136,7 @@ public class GameManager : MonoBehaviour
         bossExist = true;
     }
 
-    public void StartRepeating()
+    public void StartSpawning()
     {
         //Didn't add powerup to this since its never cancelled
         InvokeRepeating("SpawnRandomEnemy", enemyStartDelay, enemySpawnRate);

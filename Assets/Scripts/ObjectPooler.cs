@@ -15,6 +15,7 @@ public class ObjectPooler : MonoBehaviour
     public GameObject enemyObjectToPool;
     public GameObject[] enemyPool;
     public GameObject[] asteroidPool;
+    // All data below is defined in the GameManager script, but is public here so that it can be set in the inspector
     public int amountToPoolPlayer;
     public int amountToPoolEnemy;
     public int enemyAmountToPool;

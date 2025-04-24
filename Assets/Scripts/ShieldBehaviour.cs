@@ -11,16 +11,6 @@ public class ShieldBehaviour : MonoBehaviour
     // Private variables
 
 
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy Projectile") || other.gameObject.CompareTag("Asteroid") || other.gameObject.CompareTag("Enemy"))

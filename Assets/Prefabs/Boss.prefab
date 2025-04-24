@@ -123,15 +123,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b710be04a2a2eb43826685e79190037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossShoot: {fileID: 8300000, guid: f137c96122ff42e41a14058c4d6cbf58, type: 3}
-  bossDeath: {fileID: 8300000, guid: 1e5b901039c1b25499c005d969de1910, type: 3}
-  bossHit: {fileID: 8300000, guid: 61a13dcd8e1682c40ba7227aaefefbc7, type: 3}
+  enemyShoot: {fileID: 0}
+  enemyDeath: {fileID: 8300000, guid: 1e5b901039c1b25499c005d969de1910, type: 3}
   explosionParticle: {fileID: 19800010, guid: b242bffcaa0766647a3302efb1d5561e, type: 3}
   projectilePrefab: {fileID: 2117737547867716151, guid: 84c78565a8fc0a64389be3f2f6baaab5, type: 3}
+  wasHit: 0
+  pointValue: 20
+  bossShoot: {fileID: 8300000, guid: f137c96122ff42e41a14058c4d6cbf58, type: 3}
+  bossHit: {fileID: 8300000, guid: 61a13dcd8e1682c40ba7227aaefefbc7, type: 3}
   projectilePrefab2: {fileID: 2117737547867716151, guid: 84c78565a8fc0a64389be3f2f6baaab5, type: 3}
   projectilePrefab3: {fileID: 2117737547867716151, guid: 84c78565a8fc0a64389be3f2f6baaab5, type: 3}
   speed: 5
-  pointValue: 20
+  pointValueBoss: 35
   lives: 10
 --- !u!54 &2291627288740931106
 Rigidbody:

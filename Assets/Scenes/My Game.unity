@@ -558,8 +558,8 @@ MonoBehaviour:
   - {fileID: 766536774983909133, guid: 0be7522c4959e2940b0c91493f2ea2fe, type: 3}
   - {fileID: 3303087443254855755, guid: ba2c3eb187bfdff4c8bd67d709c2846b, type: 3}
   - {fileID: 3376804430501518950, guid: 5705d3bcd743d224bb23bcbe23cb99b6, type: 3}
-  amountToPoolPlayer: 14
-  amountToPoolEnemy: 10
+  amountToPoolPlayer: 10
+  amountToPoolEnemy: 14
   enemyAmountToPool: 8
   asteroidAmountToPool: 8
 --- !u!1001 &601597813

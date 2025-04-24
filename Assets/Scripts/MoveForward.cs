@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class MoveForward : MonoBehaviour
 {
+    // Public variables
     public float speed = 5f;
     public float rotateSpeed = 50.0f;
+
+    // Private variables
     private float frontBound = 60.0f;
     private float backBound = -10.0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -35,7 +33,6 @@ public class MoveForward : MonoBehaviour
             transform.position += Vector3.back * Time.deltaTime * speed;
 
             transform.Rotate(Vector3.up * Time.deltaTime * rotateSpeed);
-            // potentially add shield: Use System04 sound for shield powerup
 
         }
         //References objects that are not powerups
